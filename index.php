@@ -84,13 +84,14 @@ if (!$result) {
       width: 100%;
       position: relative;
       overflow: hidden;
-      aspect-ratio: 16/9;
+      height: 180px;
     }
 
     .properties .image-holder img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
     }
 
     /* Featured Properties in Owl Carousel */
@@ -102,6 +103,38 @@ if (!$result) {
 
     .owl-item .properties {
       margin: 0 15px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Property details styling */
+    .properties h4 {
+      margin: 8px 0;
+      font-size: 16px;
+      line-height: 1.4;
+      height: auto;
+      overflow: hidden;
+    }
+
+    .properties .price {
+      font-size: 13px;
+      margin: 3px 0;
+      color: #666;
+    }
+
+    .properties .listing-detail {
+      margin: 10px 0;
+    }
+
+    .properties .btn {
+      margin-top: auto;
+      padding: 6px 12px;
     }
 
     /* Status badge positioning */
@@ -115,7 +148,7 @@ if (!$result) {
     /* Make featured property images responsive */
     @media (max-width: 768px) {
       .properties .image-holder {
-        aspect-ratio: 4/3;
+        height: 180px;
       }
     }
 
@@ -341,7 +374,7 @@ if (!$result) {
           <div class="properties">
             <div class="image-holder"><img src="<?php echo $property_img; ?>" class="img-responsive" alt="properties">
             </div>
-            <h4><a href="properties/property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title; ?></a></h4>
+            <h4><?php echo $property_title; ?></h4>
             <p class="price">Price: Rs<?php echo $price; ?></p>
             <p class="price">Delivery Type: <?php echo $delivery_type; ?></p>
             <p class="price">Utilities: <?php echo $utility; ?></p>
@@ -417,12 +450,11 @@ if (!$result) {
                 <h4>Contact us</h4>
                 <p><b>Jaggamandu</b><br>
                     <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>www.jaggadhaninepalbkt.com<br>
+                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
                     <span class="glyphicon glyphicon-earphone"></span> +123456789
                 </p>
             </div>
         </div>
-        <p class="copyright">Copyright 2021. All rights reserved.</p>
     </div>
   </div>
 

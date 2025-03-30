@@ -54,16 +54,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <link rel="stylesheet" href="assets/navbar.css" />
+    <style>
+        .panel {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .panel-body {
+            padding: 35px;  /* Slightly more padding for the registration form */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            height: 45px;
+            padding: 10px 15px;
+        }
+        .btn-primary {
+            padding: 12px 25px;  /* Slightly larger button */
+            margin-top: 15px;
+            width: 100%;  /* Full width button */
+        }
+        label {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        hr {
+            margin: 25px 0;
+        }
+        /* Center row contents and add margins */
+        .container > .row {
+            display: flex;
+            justify-content: center;
+            margin: 50px 0;
+        }
+    </style>
     <script src="assets/jquery-1.9.1.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.js"></script>
     <script src="assets/script.js"></script>
-    <style>
-
-    </style>
 </head>
 
 <body>
-
 <?php include 'includes/nav.php'; ?>
 
 <!-- banner -->
@@ -76,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Register</h3>
@@ -149,12 +178,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h4>Contact us</h4>
                 <p><b>Jaggamandu</b><br>
                     <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>www.jaggadhaninepalbkt.com<br>
+                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
                     <span class="glyphicon glyphicon-earphone"></span> +123456789
                 </p>
             </div>
         </div>
-        <p class="copyright">Copyright 2021. All rights reserved.</p>
     </div>
 </div>
 </body>

@@ -337,7 +337,7 @@ $agents_result = mysqli_query($con, $agents_query);
                     <h4>Contact us</h4>
                     <p><b>Jaggamandu</b><br>
                         <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                        <span class="glyphicon glyphicon-envelope"></span>www.jaggadhaninepalbkt.com<br>
+                        <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
                         <span class="glyphicon glyphicon-earphone"></span> +123456789
                     </p>
                 </div>

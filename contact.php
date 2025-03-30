@@ -128,11 +128,14 @@ include 'includes/nav.php';
                 <h4>Contact us</h4>
                 <p><b>Jaggamandu</b><br>
                     <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>www.jaggadhaninepalbkt.com<br>
+                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
                     <span class="glyphicon glyphicon-earphone"></span> +123456789
                 </p>
             </div>
         </div>
-        <p class="copyright">Copyright 2021. All rights reserved.</p>
     </div>
-</div> 
+</div>
+
+</body>
+
+</html> 

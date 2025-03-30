@@ -92,16 +92,16 @@ include '../includes/nav.php';
     </div>
 
     <!-- Property Actions and Quick Actions -->
+    <!-- Property Actions -->
     <div class="row">
-        <!-- Property Actions -->
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="panel" style="background: transparent; border: none; box-shadow: none;">
                 <div class="panel-heading" style="background: #337ab7; color: white; border-radius: 4px;">
                     <h3 class="panel-title">Property Actions</h3>
                 </div>
                 <div class="panel-body" style="background: #222; padding: 15px; border-radius: 4px;">
                     <div class="row" style="display: flex; flex-wrap: wrap;">
-                        <div class="col-md-4" style="padding: 0 7px; display: flex;">
+                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
                             <div style="background: #1e472e; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
                                 <div style="padding: 12px 10px 5px; text-align: center; color: white;">
                                     <i class="glyphicon glyphicon-plus" style="font-size: 28px;"></i>
@@ -115,7 +115,7 @@ include '../includes/nav.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4" style="padding: 0 7px; display: flex;">
+                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
                             <div style="background: #1b4b5a; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
                                 <div style="padding: 12px 10px 5px; text-align: center; color: white;">
                                     <i class="glyphicon glyphicon-edit" style="font-size: 28px;"></i>
@@ -129,7 +129,7 @@ include '../includes/nav.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4" style="padding: 0 7px; display: flex;">
+                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
                             <div style="background: #4a1f1f; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
                                 <div style="padding: 12px 10px 5px; text-align: center; color: white;">
                                     <i class="glyphicon glyphicon-trash" style="font-size: 28px;"></i>
@@ -147,16 +147,18 @@ include '../includes/nav.php';
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Quick Actions -->
-        <div class="col-md-4">
+    <!-- Quick Actions -->
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
             <div class="panel" style="background: transparent; border: none; box-shadow: none;">
                 <div class="panel-heading" style="background: #333; color: white; border-radius: 4px;">
                     <h3 class="panel-title">Quick Actions</h3>
                 </div>
                 <div class="panel-body" style="background: #222; padding: 15px; border-radius: 4px;">
                     <div class="row" style="display: flex; flex-wrap: wrap;">
-                        <div class="col-md-6" style="padding: 0 7px; display: flex;">
+                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
                             <div style="background: #4a4a1f; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
                                 <div style="padding: 12px 10px 5px; text-align: center; color: white;">
                                     <i class="glyphicon glyphicon-user" style="font-size: 28px;"></i>
@@ -170,7 +172,7 @@ include '../includes/nav.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6" style="padding: 0 7px; display: flex;">
+                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
                             <div style="background: #1b4b5a; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
                                 <div style="padding: 12px 10px 5px; text-align: center; color: white;">
                                     <i class="glyphicon glyphicon-users" style="font-size: 28px;"></i>
@@ -180,6 +182,20 @@ include '../includes/nav.php';
                                     <p style="margin: 5px 0;">Manage user accounts and permissions</p>
                                     <a href="manage-users.php" class="btn" style="background: #2a7286; border: none; color: white; margin-top: 5px; padding: 6px 12px;">
                                         Manage Users
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
+                            <div style="background: #4a1f4a; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
+                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
+                                    <i class="glyphicon glyphicon-envelope" style="font-size: 28px;"></i>
+                                    <h4 style="margin: 8px 0;">Messages</h4>
+                                </div>
+                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <p style="margin: 5px 0;">View and manage user messages</p>
+                                    <a href="messages.php" class="btn" style="background: #7d337d; border: none; color: white; margin-top: 5px; padding: 6px 12px;">
+                                        View Messages
                                     </a>
                                 </div>
                             </div>
@@ -214,11 +230,14 @@ include '../includes/nav.php';
                 <h4>Contact us</h4>
                 <p><b>Jaggamandu</b><br>
                     <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>www.jaggadhaninepalbkt.com<br>
+                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
                     <span class="glyphicon glyphicon-earphone"></span> +123456789
                 </p>
             </div>
         </div>
-        <p class="copyright">Copyright 2021. All rights reserved.</p>
     </div>
-</div> 
+</div>
+
+</body>
+
+</html> 

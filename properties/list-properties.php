@@ -32,43 +32,61 @@ if (!$result) {
       border: 1px solid #ddd;
       border-radius: 4px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      height: auto;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Image holder styles */
     .properties .image-holder {
       position: relative;
       width: 100%;
-      height: 250px; /* Fixed height */
+      height: 180px; /* Reduced height */
       overflow: hidden;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     /* Image styles */
     .properties .image-holder img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* This ensures images cover the area without distortion */
+      object-fit: cover;
       object-position: center;
     }
 
     /* Property details styling */
     .properties h4 {
-      margin: 15px 0;
-      height: 40px;
+      margin: 8px 0;
+      font-size: 16px;
+      line-height: 1.4;
+      height: auto;
       overflow: hidden;
     }
 
     .properties .price {
-      font-size: 14px;
-      margin: 5px 0;
+      font-size: 13px;
+      margin: 3px 0;
+      color: #666;
     }
 
     .properties .listing-detail {
-      margin: 15px 0;
+      margin: 10px 0;
     }
 
     .properties .btn {
-      margin-top: 10px;
+      margin-top: auto;
+      padding: 6px 12px;
+    }
+
+    /* Make cards same height in a row */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .col-lg-4 {
+      display: flex;
+      margin-bottom: 20px;
     }
   </style>
   <script src="../assets/jquery-1.9.1.min.js"></script>
@@ -212,7 +230,7 @@ if (!$result) {
                     <img src="<?php echo $property_img ? '../' . $property_img : '../images/properties/default1.png'; ?>" class="img-responsive"
                       alt="<?php echo htmlspecialchars($property_title); ?>">
                   </div>
-                  <h4><a href="property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title; ?></a></h4>
+                  <h4><?php echo $property_title; ?></h4>
                   <p class="price">Price: $<?php echo $price; ?></p>
                   <p class="price">Delivery Type: <?php echo $delivery_type; ?></p>
                   <p class="price">Utilities: <?php echo $utility; ?></p>
