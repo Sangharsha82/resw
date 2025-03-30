@@ -1,0 +1,36 @@
+.navbar {
+    min-height: 50px;
+}
+
+.navbar-brand {
+    padding: 0 15px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.navbar-brand img {
+    display: inline-block;
+    vertical-align: middle;
+    max-height: 50px;
+    width: auto;
+    margin: 0;
+}
+
+.navbar-nav>li>a {
+    line-height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: white;
+}
+
+.navbar-inverse {
+    background-color: #0BE0FD;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav>li>a {
+        line-height: normal;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+} 
