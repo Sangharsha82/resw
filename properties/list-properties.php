@@ -23,7 +23,54 @@ if (!$result) {
 
   <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../assets/style.css" />
-  <link rel="stylesheet" href="../assets/navbar.css" />
+  <style>
+    /* Property card styles */
+    .properties {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Image holder styles */
+    .properties .image-holder {
+      position: relative;
+      width: 100%;
+      height: 250px; /* Fixed height */
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    /* Image styles */
+    .properties .image-holder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* This ensures images cover the area without distortion */
+      object-position: center;
+    }
+
+    /* Property details styling */
+    .properties h4 {
+      margin: 15px 0;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .properties .price {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .properties .listing-detail {
+      margin: 15px 0;
+    }
+
+    .properties .btn {
+      margin-top: 10px;
+    }
+  </style>
   <script src="../assets/jquery-1.9.1.min.js"></script>
   <script src="../assets/bootstrap/js/bootstrap.js"></script>
   <script src="../assets/script.js"></script>
@@ -162,8 +209,8 @@ if (!$result) {
               <div class="col-lg-4 col-sm-6">
                 <div class="properties">
                   <div class="image-holder">
-                    <img src="<?php echo $property_img ? '../images/properties/' . $property_img : '../images/properties/default1.png'; ?>" class="img-responsive"
-                      alt="properties">
+                    <img src="<?php echo $property_img ? '../' . $property_img : '../images/properties/default1.png'; ?>" class="img-responsive"
+                      alt="<?php echo htmlspecialchars($property_title); ?>">
                   </div>
                   <h4><a href="property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title; ?></a></h4>
                   <p class="price">Price: $<?php echo $price; ?></p>

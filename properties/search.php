@@ -3,6 +3,9 @@ session_start();
 include_once "../includes/connection.php";
 include_once "../includes/functions.php";
 
+$isSubDirectory = true;
+$page_title = "Search Results - Real Estate Management System";
+
 if (isset($_POST['submit'])) {
   $search_value = $_POST['search'];
   $delivery_type = $_POST['delivery_type'];
@@ -45,7 +48,7 @@ if (isset($_POST['submit'])) {
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-  <title>Search Result - Real Estate Management System</title>
+  <title><?php echo $page_title; ?></title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 

@@ -3,20 +3,35 @@ session_start();
 include_once "../includes/connection.php";
 include_once "../includes/functions.php";
 
+$isSubDirectory = true;
+$page_title = "Property Details - Real Estate Management System";
+
 if (isset($_GET['id'])) {
   $property_id = $_GET['id'];
 } else {
   header("Location: ../index.php");
 }
 
+// Debug output
+echo "<!-- Debug Information -->";
+echo "<!-- Property ID: " . $property_id . " -->";
+
 $query = "select * from properties, agent where properties.property_id = '$property_id' and properties.agent_id = agent.agent_id";
 $result = mysqli_query($con, $query);
 
 if (!$result) {
+  echo "<!-- Database Error: " . mysqli_error($con) . " -->";
   echo "Error Found!!!";
 }
 
 while ($property_result = mysqli_fetch_assoc($result)) {
+  // Debug output for all property data
+  echo "<!-- Property Data:";
+  foreach($property_result as $key => $value) {
+    echo "\n  $key: $value";
+  }
+  echo "\n-->";
+  
   $property_title = $property_result['property_title'];
   $property_details = $property_result['property_details'];
   $delivery_type = $property_result['delivery_type'];
@@ -24,6 +39,12 @@ while ($property_result = mysqli_fetch_assoc($result)) {
   $price = $property_result['price'];
   $property_address = $property_result['property_address'];
   $property_img = $property_result['property_img'];
+  // Add proper path construction and validation for main property image
+  $main_image_path = !empty($property_img) ? '../' . $property_img : '../images/properties/default1.png';
+  if (!file_exists($main_image_path)) {
+    $main_image_path = '../images/properties/default1.png';
+  }
+  echo "<!-- Debug: Property image from DB: " . $property_img . " -->";
   $bed_room = $property_result['bed_room'];
   $liv_room = $property_result['liv_room'];
   $parking = $property_result['parking'];
@@ -42,20 +63,62 @@ $imgquery = "select * from property_image where property_id = '$property_id'";
 $imgresult = mysqli_query($con, $imgquery);
 
 if (!$imgresult) {
+  echo "<!-- Database Error for property images: " . mysqli_error($con) . " -->";
   echo "Error Found!!!";
+} else {
+  echo "<!-- Debug: Number of additional images: " . mysqli_num_rows($imgresult) . " -->";
+  while ($img = mysqli_fetch_assoc($imgresult)) {
+    echo "<!-- Debug: Additional image from DB: " . $img['property_images'] . " -->";
+    echo "<!-- Debug: Full path would be: ../images/properties/" . $img['property_images'] . " -->";
+    echo "<!-- Debug: File exists check: " . (file_exists('../images/properties/' . $img['property_images']) ? 'Yes' : 'No') . " -->";
+  }
+  mysqli_data_seek($imgresult, 0);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Property Details - Real Estate Management System</title>
+  <title><?php echo $page_title; ?></title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../assets/style.css" />
-  <link rel="stylesheet" href="../assets/navbar.css" />
+  <style>
+    .property-images {
+      margin-bottom: 30px;
+    }
+    
+    .property-images img.properties {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+    
+    #myCarousel {
+      background: #fff;
+      margin-bottom: 20px;
+    }
+    
+    .carousel-inner > .item {
+      background: #fff;
+    }
+    
+    .carousel-control.left,
+    .carousel-control.right {
+      background-image: none;
+    }
+    
+    .carousel-control {
+      color: #333;
+      opacity: 0.8;
+    }
+    
+    .carousel-control:hover {
+      color: #72b70f;
+    }
+  </style>
   <script src="../assets/jquery-1.9.1.min.js"></script>
   <script src="../assets/bootstrap/js/bootstrap.js"></script>
   <script src="../assets/script.js"></script>
@@ -75,31 +138,11 @@ if (!$imgresult) {
   <!-- slitslider -->
 
   <script src='../assets/google_analytics_auto.js'></script>
-
-  
 </head>
 
 <body>
 
 <?php include '../includes/nav.php'; ?>
-
-<div class="container">
-<!-- Header Starts -->
-<div class="header">
-  <div class="menu">
-    <ul class="pull-right">
-      <li><a href="../index.php">Home</a></li>
-      <li><a href="list-properties.php">List Properties</a>
-        <ul class="dropdown">
-          <li><a href="sale.php">Properties on Sale</a></li>
-          <li><a href="rent.php">Properties on Rent</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</div>
-<!-- #Header Starts -->
-</div>
 
 <!-- banner -->
 <div class="inside-banner">
@@ -161,19 +204,27 @@ if (!$imgresult) {
                 <div class="carousel-inner">
                   <!-- Item 0 -->
                   <div class="item active">
-                    <img src="../images/properties/default.jpg" class="properties" alt="properties" />
+                    <img src="<?php echo $main_image_path; ?>" class="properties" alt="<?php echo htmlspecialchars($property_title); ?>" />
                   </div>
                   <!-- #Item 0 -->
 
                   <!-- Item 1 -->
                   <?php
                   mysqli_data_seek($imgresult, 0);
-                  while ($imageresult = mysqli_fetch_assoc($imgresult)) {
+                  while($imageresult = mysqli_fetch_assoc($imgresult)){
                     $image = $imageresult['property_images'];
-                    ?>
-                    <div class="item">
-                      <img src="<?php echo $image; ?>" class="properties" alt="properties" />
-                    </div>
+                    $additional_image_path = '../' . $image;
+                    echo "<!-- Debug: Processing image: " . $image . " -->";
+                    echo "<!-- Debug: Full path: " . $additional_image_path . " -->";
+                    echo "<!-- Debug: File exists: " . (file_exists($additional_image_path) ? 'Yes' : 'No') . " -->";
+                    if (!file_exists($additional_image_path)) {
+                        echo "<!-- Debug: Skipping non-existent image: " . $image . " -->";
+                        continue; // Skip if image doesn't exist
+                    }
+                  ?>
+                  <div class="item">
+                    <img src="<?php echo $additional_image_path; ?>" class="properties" alt="<?php echo htmlspecialchars($property_title); ?>" />
+                  </div>
                   <?php } ?>
                   <!-- #Item 1 -->
                 </div>
@@ -244,15 +295,6 @@ if (!$imgresult) {
           <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../about.php">About</a></li>
           <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../contact.php">Contact</a></li>
         </ul>
-      </div>
-
-      <div class="col-lg-3 col-sm-3">
-        <h4>Newsletter</h4>
-        <p>Get notified about the latest properties in our marketplace.</p>
-        <form class="form-inline" role="form">
-          <input type="text" placeholder="Enter Your email address" class="form-control">
-          <button class="btn btn-success" type="button">Notify Me!</button>
-        </form>
       </div>
 
       <div class="col-lg-3 col-sm-3">
