@@ -226,7 +226,11 @@ if (!$result) {
                     <span data-toggle="tooltip" data-placement="bottom"
                       data-original-title="Kitchen"><?php echo $kitchen; ?></span>
                   </div>
-                  <a class="btn btn-primary" href="property-detail.php?id=<?php echo $id; ?>">View Details</a>
+                  <?php if (isLoggedIn()) { ?>
+                    <a class="btn btn-primary" href="property-detail.php?id=<?php echo $id; ?>">View Details</a>
+                  <?php } else { ?>
+                    <a class="btn btn-primary" href="#" onclick="showLoginPopup(); return false;">View Details</a>
+                  <?php } ?>
                 </div>
               </div>
             <?php } ?>
@@ -286,41 +290,35 @@ if (!$result) {
 
 
   <!-- Modal -->
-  <div id="loginpop" class="modal fade">
-    <div class="modal-dialog">
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="row">
-          <div class="col-sm-6 login">
-            <h4>Login</h4>
-            <form class="" role="form">
-              <div class="form-group">
-                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-              </div>
-              <div class="form-group">
-                <label class="sr-only" for="exampleInputPassword2">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox"> Remember me
-                </label>
-              </div>
-              <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
-          </div>
-          <div class="col-sm-6">
-            <h4>New User Sign Up</h4>
-            <p>Join today and get updated with all the properties deal happening around.</p>
-            <button type="submit" class="btn btn-info" onclick="window.location.href='register.html'">Join Now</button>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="loginModalLabel">Login Required</h4>
+        </div>
+        <div class="modal-body text-center">
+          <h4>Please login to view property details</h4>
+          <p>Login to your account or register if you're a new user</p>
+          <div class="button-group" style="margin-top: 20px;">
+            <a href="../login.php" class="btn btn-info">Login</a>
+            <a href="../register.php" class="btn btn-info" style="margin-left: 10px;">Register</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- /.modal -->
 
+  <script>
+    function showLoginPopup() {
+      $('#loginModal').modal('show');
+    }
 
+    // Initialize tooltips
+    $(document).ready(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 
 </body>
 
