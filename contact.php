@@ -3,6 +3,8 @@ session_start();
 include_once "includes/connection.php";
 include_once "includes/functions.php";
 
+
+$current_page = basename($_SERVER['PHP_SELF']);
 $page_title = "Contact Us - Real Estate Management System";
 
 // Initialize message variable
@@ -134,8 +136,4 @@ include 'includes/nav.php';
             </div>
         </div>
     </div>
-</div>
-
-</body>
-
-</html> 
+</div> 
