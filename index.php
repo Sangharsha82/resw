@@ -185,13 +185,13 @@ if (!$slider_result) {
     }
 
     .btn-primary {
-      background-color: #3498db;
-      border-color: #3498db;
+      background-color: #563207;
+      border-color: #563207;
     }
 
     .btn-primary:hover {
-      background-color: #2980b9;
-      border-color: #2980b9;
+      background-color: #3E2405;
+      border-color: #3E2405;
     }
 
     .footer-section {
@@ -429,38 +429,7 @@ if (!$slider_result) {
 
 
 
-  <div class="footer-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-sm-3">
-                <h4>Information</h4>
-                <ul class="row">
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="index.php">Home</a></li>
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="about.php">About</a></li>
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="contact.php">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-3 col-sm-3">
-                <h4>Follow us</h4>
-                <a href="#"><img src="images/facebook.png" alt="facebook"></a>
-                <a href="#"><img src="images/twitter.png" alt="twitter"></a>
-                <a href="#"><img src="images/linkedin.png" alt="linkedin"></a>
-                <a href="#"><img src="images/instagram.png" alt="instagram"></a>
-            </div>
-
-            <div class="col-lg-3 col-sm-3">
-                <h4>Contact us</h4>
-                <p><b>Jaggamandu</b><br>
-                    <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
-                    <span class="glyphicon glyphicon-earphone"></span> +123456789
-                </p>
-            </div>
-        </div>
-    </div>
-  </div>
-
+ <?php include 'includes/footer.php'; ?>
 </body>
 
 <!-- Mirrored from thebootstrapthemes.com/live/thebootstrapthemes-realestate/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 11 Apr 2017 02:43:16 GMT -->

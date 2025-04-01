@@ -256,39 +256,22 @@ include '../includes/nav.php';
 .alert {
     margin-bottom: 20px;
 }
+
+.btn-primary {
+    background-color: #563207;
+    border-color: #563207;
+}
+
+.btn-primary:hover {
+    background-color: #3E2405;
+    border-color: #3E2405;
+}
 </style>
-
-<div style="background-color: #0BE0FD">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-sm-3">
-                <h4>Information</h4>
-                <ul class="row">
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../index.php">Home</a></li>
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../about.php">About</a></li>
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../contact.php">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="col-lg-3 col-sm-3">
-                <h4>Follow us</h4>
-                <a href="#"><img src="../images/facebook.png" alt="facebook"></a>
-                <a href="#"><img src="../images/twitter.png" alt="twitter"></a>
-                <a href="#"><img src="../images/linkedin.png" alt="linkedin"></a>
-                <a href="#"><img src="../images/instagram.png" alt="instagram"></a>
-            </div>
-
-            <div class="col-lg-3 col-sm-3">
-                <h4>Contact us</h4>
-                <p><b>Jaggamandu</b><br>
-                    <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
-                    <span class="glyphicon glyphicon-earphone"></span> +123456789
-                </p>
-            </div>
-        </div>
-    </div>
+<?php include '../includes/footer.php';   ?>    
 </div>
+
+<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="../assets/style.css" />
 
 </body>
 

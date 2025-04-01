@@ -39,7 +39,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
 
         .navbar-inverse {
-            background-color: #FFE8D6; /* Turquoise color from the image */
+            background-color: #124559; /* Turquoise color from the image */
         }
 
         .navbar-inverse .navbar-nav > li > a {
@@ -52,14 +52,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
 
         .navbar-inverse .navbar-nav > li > a:hover {
-            background-color: #CB997E;
+            background-color: #598392;
             color: #fff;
         }
 
         .navbar-inverse .navbar-nav > .active > a,
         .navbar-inverse .navbar-nav > .active > a:hover,
         .navbar-inverse .navbar-nav > .active > a:focus {
-            background-color: #6B705C;
+            background-color: #01161E;
             color: #fff;
         }
 

@@ -147,16 +147,22 @@ include '../includes/nav.php';
 .alert {
     margin-bottom: 20px;
 }
+
+.btn-primary {
+    background-color: #563207;
+    border-color: #563207;
+}
+
+.btn-primary:hover {
+    background-color: #3E2405;
+    border-color: #3E2405;
+}
 </style>
 
-<div class="col-lg-3 col-sm-3">
-    <h4>Contact us</h4>
-    <p><b>Jaggamandu</b><br>
-        <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-        <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
-        <span class="glyphicon glyphicon-earphone"></span> +123456789
-    </p>
-</div>
+<?php include '../includes/footer.php';   ?>    
+
+<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="../assets/style.css" />
 
 </body>
 

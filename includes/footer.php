@@ -3,7 +3,7 @@ $isSubDirectory = isset($isSubDirectory) ? $isSubDirectory : false;
 $basePath = $isSubDirectory ? '../' : '';
 ?>
 
-<div style="background-color: #0BE0FD">
+<div style="background-color: #124559">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-sm-3">

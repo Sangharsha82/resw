@@ -17,7 +17,7 @@ if (!$result) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>All Listing Properties - Real Estate Management System</title>
+  <title><?php echo $page_title; ?></title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -87,6 +87,16 @@ if (!$result) {
     .col-lg-4 {
       display: flex;
       margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      background-color: #563207;
+      border-color: #563207;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3E2405;
+      border-color: #3E2405;
     }
   </style>
   <script src="../assets/jquery-1.9.1.min.js"></script>

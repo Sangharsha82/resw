@@ -159,6 +159,16 @@ if (!$imgresult) {
     .carousel-control:hover {
       color: #72b70f;
     }
+    
+    .btn-primary {
+      background-color: #563207;
+      border-color: #563207;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3E2405;
+      border-color: #3E2405;
+    }
   </style>
   <script src="../assets/jquery-1.9.1.min.js"></script>
   <script src="../assets/bootstrap/js/bootstrap.js"></script>

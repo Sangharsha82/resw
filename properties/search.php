@@ -83,6 +83,28 @@ if (isset($_POST['submit'])) {
 include '../includes/nav.php';
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><?php echo $page_title; ?></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    .btn-primary {
+      background-color: #563207;
+      border-color: #563207;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3E2405;
+      border-color: #3E2405;
+    }
+  </style>
+</head>
+
 <!-- banner -->
 <div class="inside-banner">
     <div class="container">
