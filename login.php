@@ -122,7 +122,7 @@ while ($debug_user = $debug_result->fetch_assoc()) {
             margin: 25px 0;
         }
         /* Center row contents and add margins */
-        .container > .row {
+        .container1 > .row {
             display: flex;
             justify-content: center;
             margin: 50px 0;
@@ -144,7 +144,7 @@ while ($debug_user = $debug_result->fetch_assoc()) {
 </div>
 <!-- banner -->
 
-<div class="container">
+<div class="container1">
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -187,7 +187,7 @@ while ($debug_user = $debug_result->fetch_assoc()) {
 </div>
 
 <!-- Footer -->
-<?php include '../includes/footer.php';   ?>    
+<?php include 'includes/footer.php';   ?>    
 </body>
 
 </html>

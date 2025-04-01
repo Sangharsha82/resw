@@ -232,6 +232,7 @@ include '../includes/nav.php';
 
 <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" href="../assets/style.css" />
+<link rel="stylesheet" href="../assets/navbar.css" />
 
 </body>
 

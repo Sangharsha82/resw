@@ -3,35 +3,53 @@ $isSubDirectory = isset($isSubDirectory) ? $isSubDirectory : false;
 $basePath = $isSubDirectory ? '../' : '';
 ?>
 
-<div style="background-color: #124559">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-sm-3">
-                <h4>Information</h4>
-                <ul class="row">
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="<?php echo $basePath; ?>">Home</a></li>
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="<?php echo $basePath; ?>about.php">About</a></li>
-                    <li class="col-lg-12 col-sm-12 col-xs-3"><a href="<?php echo $basePath; ?>contact.php">Contact</a></li>
-                </ul>
-            </div>
+<footer class="modern-footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 footer-info">
+                    <h3>Real Estate</h3>
+                    <p>Your trusted partner in finding the perfect property. We believe in making your real estate journey smooth and successful.</p>
+                    <div class="social-links mt-4">
+                        <a href="#" class="facebook"><img src="<?php echo $basePath; ?>images/facebook.png" alt="facebook"></a>
+                        <a href="#" class="twitter"><img src="<?php echo $basePath; ?>images/twitter.png" alt="twitter"></a>
+                        <a href="#" class="linkedin"><img src="<?php echo $basePath; ?>images/linkedin.png" alt="linkedin"></a>
+                        <a href="#" class="instagram"><img src="<?php echo $basePath; ?>images/instagram.png" alt="instagram"></a>
+                    </div>
+                </div>
 
-            <div class="col-lg-3 col-sm-3">
-                <h4>Follow us</h4>
-                <a href="#"><img src="<?php echo $basePath; ?>images/facebook.png" alt="facebook"></a>
-                <a href="#"><img src="<?php echo $basePath; ?>images/twitter.png" alt="twitter"></a>
-                <a href="#"><img src="<?php echo $basePath; ?>images/linkedin.png" alt="linkedin"></a>
-                <a href="#"><img src="<?php echo $basePath; ?>images/instagram.png" alt="instagram"></a>
-            </div>
+                <div class="col-lg-4 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>">Home</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>about.php">About Us</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>contact.php">Contact</a></li>
+                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>properties.php">Properties</a></li>
+                    </ul>
+                </div>
 
-            <div class="col-lg-3 col-sm-3">
-                <h4>Contact us</h4>
-                <p><b>Jaggamandu</b><br>
-                    <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-                    <span class="glyphicon glyphicon-envelope"></span>jaggamandubkt@gmail.com<br>
-                    <span class="glyphicon glyphicon-earphone"></span> +123456789
-                </p>
+                <div class="col-lg-4 col-md-6 footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>
+                        <strong>Jaggamandu</strong><br>
+                        <i class="fas fa-map-marker-alt"></i> Bhaktapur<br>
+                        <i class="fas fa-envelope"></i> <a href="mailto:jaggamandubkt@gmail.com">jaggamandubkt@gmail.com</a><br>
+                        <i class="fas fa-phone"></i> +123456789
+                    </p>
+                </div>
             </div>
         </div>
-        <p class="copyright">Copyright 2024. All rights reserved.</p>
     </div>
-</div> 
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="copyright">
+                        Copyright &copy; <?php echo date('Y'); ?> Real Estate. All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer> 
