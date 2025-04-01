@@ -6,73 +6,114 @@ include_once "../includes/functions.php";
 $isSubDirectory = true;
 $page_title = "Property Details - Real Estate Management System";
 
+// Initialize all variables with default values
+$property_id = 0;
+$property_title = "Property Not Found";
+$property_details = "No details available";
+$delivery_type = "";
+$availablility = 0;
+$price = 0;
+$property_address = "No address available";
+$property_img = "";
+$main_image_path = '../images/properties/default1.png';
+$bed_room = 0;
+$liv_room = 0;
+$parking = 0;
+$kitchen = 0;
+$utility = "";
+$property_type = "";
+$floor_space = 0;
+$agent_name = "Not available";
+$agent_address = "Not available";
+$agent_contact = "Not available";
+$agent_email = "Not available";
+
 if (isset($_GET['id'])) {
   $property_id = $_GET['id'];
 } else {
   header("Location: ../index.php");
+  exit;
 }
 
 // Debug output
+error_log("Loading property ID: " . $property_id);
 echo "<!-- Debug Information -->";
 echo "<!-- Property ID: " . $property_id . " -->";
 
-$query = "select * from properties, agent where properties.property_id = '$property_id' and properties.agent_id = agent.agent_id";
+$query = "SELECT p.*, a.agent_name, a.agent_address, a.agent_contact, a.agent_email 
+          FROM properties p 
+          LEFT JOIN agent a ON p.agent_id = a.agent_id 
+          WHERE p.property_id = '" . mysqli_real_escape_string($con, $property_id) . "'";
 $result = mysqli_query($con, $query);
 
 if (!$result) {
+  error_log("Database Error: " . mysqli_error($con));
   echo "<!-- Database Error: " . mysqli_error($con) . " -->";
   echo "Error Found!!!";
+} else {
+  if (mysqli_num_rows($result) > 0) {
+    $property_result = mysqli_fetch_assoc($result);
+    
+    // Debug output for all property data
+    error_log("Property data loaded successfully");
+    echo "<!-- Property Data:";
+    foreach($property_result as $key => $value) {
+      echo "\n  $key: $value";
+    }
+    echo "\n-->";
+    
+    $property_title = $property_result['property_title'];
+    $property_details = $property_result['property_details'];
+    $delivery_type = $property_result['delivery_type'];
+    $availablility = $property_result['availablility'];
+    $price = $property_result['price'];
+    $property_address = $property_result['property_address'];
+    $property_img = $property_result['property_img'];
+    
+    // Add proper path construction and validation for main property image
+    $main_image_path = !empty($property_img) ? '../' . $property_img : '../images/properties/default1.png';
+    if (!file_exists($main_image_path)) {
+      $main_image_path = '../images/properties/default1.png';
+    }
+    
+    echo "<!-- Debug: Property image from DB: " . $property_img . " -->";
+    $bed_room = $property_result['bed_room'];
+    $liv_room = $property_result['liv_room'];
+    $parking = $property_result['parking'];
+    $kitchen = $property_result['kitchen'];
+    $utility = $property_result['utility'];
+    $property_type = $property_result['property_type'];
+    $floor_space = $property_result['floor_space'];
+
+    $agent_name = $property_result['agent_name'] ?: "Not available";
+    $agent_address = $property_result['agent_address'] ?: "Not available";
+    $agent_contact = $property_result['agent_contact'] ?: "Not available";
+    $agent_email = $property_result['agent_email'] ?: "Not available";
+  } else {
+    error_log("No property found with ID: " . $property_id);
+    echo "<!-- No property found with ID: " . $property_id . " -->";
+  }
 }
 
-while ($property_result = mysqli_fetch_assoc($result)) {
-  // Debug output for all property data
-  echo "<!-- Property Data:";
-  foreach($property_result as $key => $value) {
-    echo "\n  $key: $value";
-  }
-  echo "\n-->";
-  
-  $property_title = $property_result['property_title'];
-  $property_details = $property_result['property_details'];
-  $delivery_type = $property_result['delivery_type'];
-  $availablility = $property_result['availablility'];
-  $price = $property_result['price'];
-  $property_address = $property_result['property_address'];
-  $property_img = $property_result['property_img'];
-  // Add proper path construction and validation for main property image
-  $main_image_path = !empty($property_img) ? '../' . $property_img : '../images/properties/default1.png';
-  if (!file_exists($main_image_path)) {
-    $main_image_path = '../images/properties/default1.png';
-  }
-  echo "<!-- Debug: Property image from DB: " . $property_img . " -->";
-  $bed_room = $property_result['bed_room'];
-  $liv_room = $property_result['liv_room'];
-  $parking = $property_result['parking'];
-  $kitchen = $property_result['kitchen'];
-  $utility = $property_result['utility'];
-  $property_type = $property_result['property_type'];
-  $floor_space = $property_result['floor_space'];
-
-  $agent_name = $property_result['agent_name'];
-  $agent_address = $property_result['agent_address'];
-  $agent_contact = $property_result['agent_contact'];
-  $agent_email = $property_result['agent_email'];
-}
-
-$imgquery = "select * from property_image where property_id = '$property_id'";
+// Get property images
+$imgquery = "SELECT * FROM property_image WHERE property_id = '" . mysqli_real_escape_string($con, $property_id) . "'";
 $imgresult = mysqli_query($con, $imgquery);
 
 if (!$imgresult) {
+  error_log("Database Error for property images: " . mysqli_error($con));
   echo "<!-- Database Error for property images: " . mysqli_error($con) . " -->";
   echo "Error Found!!!";
 } else {
   echo "<!-- Debug: Number of additional images: " . mysqli_num_rows($imgresult) . " -->";
   while ($img = mysqli_fetch_assoc($imgresult)) {
     echo "<!-- Debug: Additional image from DB: " . $img['property_images'] . " -->";
-    echo "<!-- Debug: Full path would be: ../images/properties/" . $img['property_images'] . " -->";
-    echo "<!-- Debug: File exists check: " . (file_exists('../images/properties/' . $img['property_images']) ? 'Yes' : 'No') . " -->";
+    echo "<!-- Debug: Full path would be: '../" . $img['property_images'] . "' -->";
+    echo "<!-- Debug: File exists check: " . (file_exists('../' . $img['property_images']) ? 'Yes' : 'No') . " -->";
   }
-  mysqli_data_seek($imgresult, 0);
+  // Reset the pointer to beginning
+  if (mysqli_num_rows($imgresult) > 0) {
+    mysqli_data_seek($imgresult, 0);
+  }
 }
 ?>
 
@@ -158,18 +199,19 @@ if (!$imgresult) {
       <div class="col-lg-3 col-sm-4 hidden-xs">
         <div class="search-form">
           <h4><span class="glyphicon glyphicon-search"></span> Search for</h4>
-          <form action="search.php" method="post" name="search">
-            <input type="text" class="form-control" name="search" placeholder="Search of Properties">
+          <form action="search.php" method="post">
+            <input type="text" class="form-control" name="search" placeholder="Search of Properties" required>
             <div class="row">
               <div class="col-lg-5">
-                <select name="delivery_type" class="form-control">
+                <select name="delivery_type" class="form-control" required>
+                  <option value="">Delivery Type</option>
                   <option value="Rent">Rent</option>
                   <option value="Sale">Sale</option>
                 </select>
               </div>
               <div class="col-lg-7">
-                <select name="search_price" class="form-control">
-                  <option>Price</option>
+                <select name="search_price" class="form-control" required>
+                  <option value="">Price</option>
                   <option value="1">Rs5000 - Rs50,000</option>
                   <option value="2">Rs50,000 - Rs100,000</option>
                   <option value="3">Rs100,000 - Rs200,000</option>
@@ -180,21 +222,21 @@ if (!$imgresult) {
 
             <div class="row">
               <div class="col-lg-12">
-                <select name="property_type" class="form-control">
-                  <option>Property Type</option>
+                <select name="property_type" class="form-control" required>
+                  <option value="">Property Type</option>
                   <option value="Apartment">Apartment</option>
                   <option value="Building">Building</option>
                   <option value="Office-Space">Office-Space</option>
                 </select>
               </div>
             </div>
-            <button name="submit" class="btn btn-primary">Find Now</button>
+            <button type="submit" name="submit" class="btn btn-primary">Find Now</button>
           </form>
         </div>
       </div>
 
       <div class="col-lg-9 col-sm-8">
-        <h2><?php echo $property_title; ?></h2>
+        <h2><?php echo htmlspecialchars($property_title); ?></h2>
         <div class="row">
           <div class="col-lg-8">
             <div class="property-images">
@@ -236,11 +278,11 @@ if (!$imgresult) {
 
             <div class="spacer">
               <h4><span class="glyphicon glyphicon-th-list"></span> Properties Detail</h4>
-              <p><?php echo $property_details; ?></p>
+              <p><?php echo nl2br(htmlspecialchars($property_details)); ?></p>
             </div>
             <div>
               <h4><span class="glyphicon glyphicon-map-marker"></span> Location</h4>
-              <div class="well"><?php echo $property_address; ?></div>
+              <div class="well"><?php echo htmlspecialchars($property_address); ?></div>
             </div>
           </div>
           <div class="col-lg-4">
@@ -248,18 +290,18 @@ if (!$imgresult) {
               <div class="property-info">
                 <div class="well">
                   <b>Agent Details:</b> <br>
-                  <span class="glyphicon glyphicon-user"></span> <?php echo $agent_name ?><br>
-                  <span class="glyphicon glyphicon-map-marker"></span> <?php echo $agent_address; ?><br>
-                  <span class="glyphicon glyphicon-phone-alt"></span> <?php echo $agent_contact; ?><br>
-                  <span class="glyphicon glyphicon-envelope"></span> <?php echo $agent_email; ?><br>
+                  <span class="glyphicon glyphicon-user"></span> <?php echo htmlspecialchars($agent_name); ?><br>
+                  <span class="glyphicon glyphicon-map-marker"></span> <?php echo htmlspecialchars($agent_address); ?><br>
+                  <span class="glyphicon glyphicon-phone-alt"></span> <?php echo htmlspecialchars($agent_contact); ?><br>
+                  <span class="glyphicon glyphicon-envelope"></span> <?php echo htmlspecialchars($agent_email); ?><br>
                 </div>
 
                 <div class="well">
-                  <p class="price">Rs<?php echo $price; ?></p>
+                  <p class="price">Rs<?php echo number_format($price); ?></p>
                 </div>
 
                 <p class="area">
-                  <div class="well"><span class="glyphicon glyphicon-map-marker"></span> <?php echo $property_address; ?></div>
+                  <div class="well"><span class="glyphicon glyphicon-map-marker"></span> <?php echo htmlspecialchars($property_address); ?></div>
                 </p>
               </div>
 

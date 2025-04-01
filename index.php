@@ -311,7 +311,7 @@ if (!$result) {
       <div class="searchbar">
         <div class="row">
           <div class="col-lg-6 col-sm-6">
-            <form action="search.php" method="post" id="searchForm" onsubmit="return validateSearch()">
+            <form action="properties/search.php" method="post" id="searchForm" onsubmit="return validateSearch()">
               <input name="search" type="text" class="form-control" placeholder="Property title" required>
               <div class="row">
                 <div class="col-lg-3 col-sm-3 ">
@@ -339,9 +339,25 @@ if (!$result) {
                   </select>
                 </div>
                 <div class="col-lg-3 col-sm-4">
-                  <button name="submit" class="btn btn-success">Find Now</button>
+                  <button name="submit" class="btn btn-success" type="submit">Find Now</button>
                 </div>
+              </div>
             </form>
+
+            <script>
+            function validateSearch() {
+              var search = document.forms["searchForm"]["search"].value;
+              var delivery_type = document.forms["searchForm"]["delivery_type"].value;
+              var search_price = document.forms["searchForm"]["search_price"].value;
+              var property_type = document.forms["searchForm"]["property_type"].value;
+              
+              if (search == "" || delivery_type == "" || search_price == "" || property_type == "") {
+                alert("All fields must be filled out");
+                return false;
+              }
+              return true;
+            }
+            </script>
           </div>
         </div>
       </div>
@@ -457,33 +473,6 @@ if (!$result) {
         </div>
     </div>
   </div>
-
-  <script>
-    function validateSearch() {
-      var searchInput = document.querySelector('input[name="search"]').value;
-      var deliveryType = document.querySelector('select[name="delivery_type"]').value;
-      var searchPrice = document.querySelector('select[name="search_price"]').value;
-      var propertyType = document.querySelector('select[name="property_type"]').value;
-
-      if (!searchInput.trim()) {
-        alert('Please enter a search term');
-        return false;
-      }
-      if (!deliveryType) {
-        alert('Please select a delivery type');
-        return false;
-      }
-      if (!searchPrice) {
-        alert('Please select a price range');
-        return false;
-      }
-      if (!propertyType) {
-        alert('Please select a property type');
-        return false;
-      }
-      return true;
-    }
-  </script>
 
 </body>
 

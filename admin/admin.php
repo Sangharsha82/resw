@@ -3,8 +3,19 @@ session_start();
 include_once "../includes/connection.php";
 include_once "../includes/functions.php";
 
+// Debug information
+error_log("Admin page accessed. Session data: " . print_r($_SESSION, true));
+
+// Check if user is logged in first
+if (!isLoggedIn()) {
+    error_log("User not logged in, redirecting to login page");
+    header("Location: ../login.php");
+    exit();
+}
+
 // Check if user is admin
 if (!isAdmin()) {
+    error_log("User is not admin (is_admin: " . (isset($_SESSION['is_admin']) ? $_SESSION['is_admin'] : 'not set') . "), redirecting to index");
     header("Location: ../index.php");
     exit();
 }

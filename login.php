@@ -31,16 +31,19 @@ if (isset($_POST['login'])) {
             // Password is correct
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['is_admin'] = $user['is_admin'];
+            $_SESSION['is_admin'] = (int)$user['is_admin']; // Ensure it's an integer
 
             // Add debug information
             error_log("Login successful for user: " . $user['username']);
-            error_log("Is admin: " . ($user['is_admin'] ? 'Yes' : 'No'));
+            error_log("User data: " . print_r($user, true));
+            error_log("Session data after login: " . print_r($_SESSION, true));
 
             // Redirect based on user type
             if ($user['is_admin'] == 1) {
+                error_log("Redirecting admin user to admin dashboard");
                 header("Location: admin/admin.php");
             } else {
+                error_log("Redirecting regular user to index");
                 header("Location: index.php");
             }
             exit();
