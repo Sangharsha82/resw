@@ -23,82 +23,7 @@ if (!$result) {
 
   <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../assets/style.css" />
-  <style>
-    /* Property card styles */
-    .properties {
-      background: #fff;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      height: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Image holder styles */
-    .properties .image-holder {
-      position: relative;
-      width: 100%;
-      height: 180px; /* Reduced height */
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-
-    /* Image styles */
-    .properties .image-holder img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    /* Property details styling */
-    .properties h4 {
-      margin: 8px 0;
-      font-size: 16px;
-      line-height: 1.4;
-      height: auto;
-      overflow: hidden;
-    }
-
-    .properties .price {
-      font-size: 13px;
-      margin: 3px 0;
-      color: #666;
-    }
-
-    .properties .listing-detail {
-      margin: 10px 0;
-    }
-
-    .properties .btn {
-      margin-top: auto;
-      padding: 6px 12px;
-    }
-
-    /* Make cards same height in a row */
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .col-lg-4 {
-      display: flex;
-      margin-bottom: 20px;
-    }
-
-    .btn-primary {
-      background-color: #563207;
-      border-color: #563207;
-    }
-    
-    .btn-primary:hover {
-      background-color: #3E2405;
-      border-color: #3E2405;
-    }
-  </style>
+ 
   <script src="../assets/jquery-1.9.1.min.js"></script>
   <script src="../assets/bootstrap/js/bootstrap.js"></script>
   <script src="../assets/script.js"></script>
@@ -274,46 +199,7 @@ if (!$result) {
 
 
 
-  <div style="background-color: #0BE0FD">
-
-    <div class="container">
-
-
-
-      <div class="row">
-        <div class="col-lg-3 col-sm-3">
-          <h4>Information</h4>
-          <ul class="row">
-            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../index.php">Home</a></li>
-            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../about.php">About</a></li>
-            <li class="col-lg-12 col-sm-12 col-xs-3"><a href="../contact.php">Contact</a></li>
-          </ul>
-        </div>
-
-
-
-        <div class="col-lg-3 col-sm-3">
-          <h4>Follow us</h4>
-          <a href="#"><img src="../images/facebook.png" alt="facebook"></a>
-          <a href="#"><img src="../images/twitter.png" alt="twitter"></a>
-          <a href="#"><img src="../images/linkedin.png" alt="linkedin"></a>
-          <a href="#"><img src="../images/instagram.png" alt="instagram"></a>
-        </div>
-
-        <div class="col-lg-3 col-sm-3">
-          <h4>Contact us</h4>
-          <p><b>Jaggamandu</b><br>
-            <span class="glyphicon glyphicon-map-marker"></span>Bhaktapur<br>
-            <span class="glyphicon glyphicon-envelope"></span>www.jaggadhaninepalbkt.com<br>
-            <span class="glyphicon glyphicon-earphone"></span> +123456789
-        </div>
-      </div>
-      <p class="copyright">Copyright 2021. All rights reserved. </p>
-
-
-    </div>
-  </div>
-
+  <?php include '../includes/footer.php';   ?>    
 
 
 

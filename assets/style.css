@@ -21,8 +21,13 @@ h6 span{margin-right: 5px; font-size: 12px;}
 
 
 p{margin-bottom: 30px;}
-a{color:#6B705C; text-decoration:none;outline: none;}
+a{color:#ffffff; text-decoration:none;outline: none;}
 a:hover{color:#333;}
+a.pull-right,div.pull-left{
+    color: #583101; 
+   border-bottom: 5px solid #583101;
+    font-size: 18px;
+  }
 .spacer{margin-top: 40px;margin-bottom:40px;}
 .center{text-align: center;}
 .fullwidth{width: 100%;}
@@ -33,7 +38,8 @@ a.more:hover{background: #6B705C;text-decoration: none;}
 table{background-color: #fff;}
 
 .btn{border-radius: 5px; font-family: din; outline: none;}
-.btn-success{ background: #72b70f;border:1px solid #72b70f;padding:6px 20px; font-size:16px; width: 100%; }
+.btn-success{ background: #563207;border:1px solid #563207;padding:6px 20px; font-size:16px; width: 100%; }
+.btn-success:hover{ background: #563207;border:1px solid #563207; }
 .btn-primary{ background: #563207;border:none;width: 100%;border-radius: 20px;}
 .btn-info{background: #333;border:4px solid #ddd;padding: 3px 20px; font-size:20px; border-radius: 20px;  }
 
@@ -199,9 +205,8 @@ table{background-color: #fff;}
 }
 
 .footer-top {
-    padding: 60px 0 30px;
+   padding-top: 20px;  
 }
-
 .footer-info h3 {
     font-size: 24px;
     margin: 0 0 20px 0;

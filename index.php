@@ -193,6 +193,14 @@ if (!$slider_result) {
       background-color: #3E2405;
       border-color: #3E2405;
     }
+    .btn-success{ 
+      background-color: #563207;
+      border-color: #563207;
+    }
+    .btn-success:hover {
+      background-color: #3E2405;
+      border-color: #3E2405;
+    }
 
     .footer-section {
       background-color: #2c3e50;
@@ -215,6 +223,7 @@ if (!$slider_result) {
     .copyright {
       color: #bdc3c7;
     }
+   
   </style>
 </head>
 
@@ -265,7 +274,7 @@ if (!$slider_result) {
             <blockquote>
               <p class="location"><span class="glyphicon glyphicon-map-marker"></span> <?php echo $property_address; ?></p>
               <p><?php echo $bed_room; ?> Bed Room(s) | <?php echo $delivery_type; ?></p>
-              <cite>Rs <?php echo number_format($price); ?></cite>
+              <cite style="background-color: #563207;" >Rs <?php echo number_format($price); ?></cite>
             </blockquote>
           </div>
         </div>
