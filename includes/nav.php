@@ -39,7 +39,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
 
         .navbar-inverse {
-            background-color: #00CED1; /* Turquoise color from the image */
+            background-color: #FFE8D6; /* Turquoise color from the image */
         }
 
         .navbar-inverse .navbar-nav > li > a {
@@ -52,14 +52,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
         }
 
         .navbar-inverse .navbar-nav > li > a:hover {
-            background-color: #72b70f;
+            background-color: #CB997E;
             color: #fff;
         }
 
         .navbar-inverse .navbar-nav > .active > a,
         .navbar-inverse .navbar-nav > .active > a:hover,
         .navbar-inverse .navbar-nav > .active > a:focus {
-            background-color: #72b70f;
+            background-color: #6B705C;
             color: #fff;
         }
 
@@ -84,7 +84,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         .navbar-inverse .navbar-toggle:hover,
         .navbar-inverse .navbar-toggle:focus {
-            background-color: #72b70f;
+            background-color: #6B705C;
         }
 
         @media (max-width: 767px) {

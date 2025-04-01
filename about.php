@@ -75,13 +75,13 @@ $page_title = "About Us - Real Estate Management System";
         }
 
         .btn-primary {
-            background-color: #3498db;
-            border-color: #3498db;
+            background-color: #FFE8D6;
+            border-color: #FFE8D6;
         }
 
         .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
+            background-color: #F9DFC9;
+            border-color: #F9DFC9;
         }
     </style>
 </head>

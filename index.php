@@ -3,11 +3,20 @@ session_start();
 include_once "includes/connection.php";
 include_once "includes/functions.php";
 
+// Main query for featured properties in the carousel
 $query = "select * from properties";
 $result = mysqli_query($con, $query);
 
 if (!$result) {
   echo "Error Found!!!";
+}
+
+// Separate query for slider properties - limit to 5 properties
+$slider_query = "SELECT * FROM properties ORDER BY property_id DESC LIMIT 5";
+$slider_result = mysqli_query($con, $slider_query);
+
+if (!$slider_result) {
+  echo "Error loading slider properties!";
 }
 ?>
 
@@ -217,86 +226,64 @@ if (!$result) {
     <div id="slider" class="sl-slider-wrapper">
 
       <div class="sl-slider">
-
-        <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25"
-          data-slice1-scale="2" data-slice2-scale="2">
+      
+        <?php
+        $count = 0;
+        $orientations = ["horizontal", "vertical", "horizontal", "vertical", "horizontal"];
+        $slice1_rotations = ["-25", "10", "3", "-5", "-5"];
+        $slice2_rotations = ["-25", "-15", "3", "25", "10"];
+        $slice1_scales = ["2", "1.5", "2", "2", "2"];
+        $slice2_scales = ["2", "1.5", "1", "1", "1"];
+        
+        while ($property = mysqli_fetch_assoc($slider_result)) {
+          $id = $property['property_id'];
+          $property_title = $property['property_title'];
+          $property_address = isset($property['property_address']) ? $property['property_address'] : "Address not available";
+          $price = $property['price'];
+          $property_img = $property['property_img'];
+          $bed_room = $property['bed_room'];
+          $delivery_type = $property['delivery_type'];
+          
+          // Use default values if we've reached the end of our arrays
+          $orientation = isset($orientations[$count]) ? $orientations[$count] : "horizontal";
+          $slice1_rotation = isset($slice1_rotations[$count]) ? $slice1_rotations[$count] : "0";
+          $slice2_rotation = isset($slice2_rotations[$count]) ? $slice2_rotations[$count] : "0";
+          $slice1_scale = isset($slice1_scales[$count]) ? $slice1_scales[$count] : "1";
+          $slice2_scale = isset($slice2_scales[$count]) ? $slice2_scales[$count] : "1";
+          
+          // Set the background image class
+          $bg_img_class = "bg-img-" . ($count + 1);
+        ?>
+        <div class="sl-slide" data-orientation="<?php echo $orientation; ?>" 
+             data-slice1-rotation="<?php echo $slice1_rotation; ?>" 
+             data-slice2-rotation="<?php echo $slice2_rotation; ?>"
+             data-slice1-scale="<?php echo $slice1_scale; ?>" 
+             data-slice2-scale="<?php echo $slice2_scale; ?>">
           <div class="sl-slide-inner">
-            <div class="bg-img bg-img-1"></div>
-            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
+            <div class="bg-img <?php echo $bg_img_class; ?>"></div>
+            <h2><a href="properties/property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title; ?></a></h2>
             <blockquote>
-              <p class="location"><span class="glyphicon glyphicon-map-marker"></span>Byasi Bhaktapur </p>
-              <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.
-              </p>
-              <cite>Rs20,000,000</cite>
+              <p class="location"><span class="glyphicon glyphicon-map-marker"></span> <?php echo $property_address; ?></p>
+              <p><?php echo $bed_room; ?> Bed Room(s) | <?php echo $delivery_type; ?></p>
+              <cite>Rs <?php echo number_format($price); ?></cite>
             </blockquote>
           </div>
         </div>
+        <?php
+          $count++;
+        }
+        ?>
 
-        <div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15"
-          data-slice1-scale="1.5" data-slice2-scale="1.5">
-          <div class="sl-slide-inner">
-            <div class="bg-img bg-img-2"></div>
-            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
-            <blockquote>
-              <p class="location"><span class="glyphicon glyphicon-map-marker"></span> Suryabinkayak Bhaktapur</p>
-              <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.
-              </p>
-              <cite>Rs20,000,000</cite>
-            </blockquote>
-          </div>
-        </div>
-
-        <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3"
-          data-slice1-scale="2" data-slice2-scale="1">
-          <div class="sl-slide-inner">
-            <div class="bg-img bg-img-3"></div>
-            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
-            <blockquote>
-              <p class="location"><span class="glyphicon glyphicon-map-marker"></span> Jagati Bhaktapur</p>
-              <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.
-              </p>
-              <cite>Rs 20,000,000</cite>
-            </blockquote>
-          </div>
-        </div>
-
-        <div class="sl-slide" data-orientation="vertical" data-slice1-rotation="-5" data-slice2-rotation="25"
-          data-slice1-scale="2" data-slice2-scale="1">
-          <div class="sl-slide-inner">
-            <div class="bg-img bg-img-4"></div>
-            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
-            <blockquote>
-              <p class="location"><span class="glyphicon glyphicon-map-marker"></span>Thimi Bhaktapur</p>
-              <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.
-              </p>
-              <cite>Rs 20,000,000</cite>
-            </blockquote>
-          </div>
-        </div>
-
-        <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="10"
-          data-slice1-scale="2" data-slice2-scale="1">
-          <div class="sl-slide-inner">
-            <div class="bg-img bg-img-5"></div>
-            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
-            <blockquote>
-              <p class="location"><span class="glyphicon glyphicon-map-marker"></span> Kamalbinayak Bhaktapur</p>
-              <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.
-              </p>
-              <cite>RS 20,000,000</cite>
-            </blockquote>
-          </div>
-        </div>
       </div><!-- /sl-slider -->
-
-
 
       <nav id="nav-dots" class="nav-dots">
         <span class="nav-dot-current"></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <?php
+        // Generate navigation dots for each slide (minus the first one which is already added above)
+        for ($i = 1; $i < mysqli_num_rows($slider_result); $i++) {
+          echo '<span></span>';
+        }
+        ?>
       </nav>
 
     </div><!-- /slider-wrapper -->

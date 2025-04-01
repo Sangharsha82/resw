@@ -72,6 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 12px 25px;  /* Slightly larger button */
             margin-top: 15px;
             width: 100%;  /* Full width button */
+            background-color: #FFE8D6;
+            border-color: #FFE8D6;
+        }
+        .btn-primary:hover {
+            background-color: #F9DFC9;
+            border-color: #F9DFC9;
         }
         label {
             margin-bottom: 8px;

@@ -108,6 +108,12 @@ while ($debug_user = $debug_result->fetch_assoc()) {
         .btn-primary {
             padding: 10px 20px;
             margin-top: 10px;
+            background-color: #FFE8D6;
+            border-color: #FFE8D6;
+        }
+        .btn-primary:hover {
+            background-color: #F9DFC9;
+            border-color: #F9DFC9;
         }
         .checkbox {
             margin: 20px 0;

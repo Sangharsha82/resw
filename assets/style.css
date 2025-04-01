@@ -21,14 +21,14 @@ h6 span{margin-right: 5px; font-size: 12px;}
 
 
 p{margin-bottom: 30px;}
-a{color:#72b70f; text-decoration:none;outline: none;}
+a{color:#6B705C; text-decoration:none;outline: none;}
 a:hover{color:#333;}
 .spacer{margin-top: 40px;margin-bottom:40px;}
 .center{text-align: center;}
 .fullwidth{width: 100%;}
 select,input{outline: 0; margin-bottom: 20px;}
 a.more{background-color: #222; padding: 2px 6px;color: #fff; text-transform: uppercase; font-size: 11px;}
-a.more:hover{background: #64a30a;text-decoration: none;}
+a.more:hover{background: #6B705C;text-decoration: none;}
 
 table{background-color: #fff;}
 
@@ -66,7 +66,7 @@ table{background-color: #fff;}
 
 .header ul li a:hover {
     text-decoration: none;
-    color: #72b70f;
+    color: #6B705C;
 }
 
 .navbar-inverse {
@@ -84,7 +84,7 @@ table{background-color: #fff;}
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
-    background-color: #72b70f;
+    background-color: #6B705C;
     color: #fff;
 }
 
