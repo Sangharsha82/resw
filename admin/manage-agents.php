@@ -24,10 +24,38 @@ $edit_agent = array(
 // Handle agent deletion
 if (isset($_POST['delete_agent'])) {
     $agent_id = mysqli_real_escape_string($con, $_POST['agent_id']);
-    $query = "DELETE FROM agent WHERE agent_id = '$agent_id'";
-    mysqli_query($con, $query);
     
-    $_SESSION['success_msg'] = "Agent deleted successfully!";
+    // First check if the agent exists
+    $check_query = "SELECT agent_id FROM agent WHERE agent_id = '$agent_id'";
+    $check_result = mysqli_query($con, $check_query);
+    
+    if (mysqli_num_rows($check_result) > 0) {
+        // Check if agent has any associated properties
+        $check_properties = "SELECT COUNT(*) as count FROM properties WHERE agent_id = '$agent_id'";
+        $properties_result = mysqli_query($con, $check_properties);
+        $properties_count = mysqli_fetch_assoc($properties_result)['count'];
+        
+        if ($properties_count > 0) {
+            // Update properties to set agent_id to NULL
+            $update_properties = "UPDATE properties SET agent_id = NULL WHERE agent_id = '$agent_id'";
+            if (!mysqli_query($con, $update_properties)) {
+                $_SESSION['error_msg'] = "Error updating properties: " . mysqli_error($con);
+                header("Location: manage-agents.php");
+                exit();
+            }
+        }
+        
+        // Now delete the agent
+        $query = "DELETE FROM agent WHERE agent_id = '$agent_id'";
+        if (mysqli_query($con, $query)) {
+            $_SESSION['success_msg'] = "Agent deleted successfully!";
+        } else {
+            $_SESSION['error_msg'] = "Error deleting agent: " . mysqli_error($con);
+        }
+    } else {
+        $_SESSION['error_msg'] = "Agent not found!";
+    }
+    
     header("Location: manage-agents.php");
     exit();
 }
@@ -84,196 +112,206 @@ if ($result) {
         $agents[] = $row;
     }
 }
-
-include '../includes/nav.php';
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?php echo $page_title; ?></title>
+    <!-- Bootstrap and Core CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <link rel="stylesheet" href="../assets/navbar.css" />
+</head>
+<body>
+    <?php include '../includes/nav.php'; ?>
 
-<!-- banner -->
-<div class="inside-banner">
-    <div class="container">
-        <h2>Manage Agents</h2>
+    <!-- banner -->
+    <div class="inside-banner">
+        <div class="container">
+            <h2>Manage Agents</h2>
+        </div>
     </div>
-</div>
-<!-- banner -->
+    <!-- banner -->
 
-<div class="container">
-    <div class="properties-listing spacer">
-        <?php if (isset($_SESSION['success_msg'])): ?>
-            <div class="alert alert-success">
-                <?php 
-                echo $_SESSION['success_msg'];
-                unset($_SESSION['success_msg']);
-                ?>
-            </div>
-        <?php endif; ?>
+    <div class="container">
+        <div class="properties-listing spacer">
+            <?php if (isset($_SESSION['success_msg'])): ?>
+                <div class="alert alert-success">
+                    <?php 
+                    echo $_SESSION['success_msg'];
+                    unset($_SESSION['success_msg']);
+                    ?>
+                </div>
+            <?php endif; ?>
 
-        <?php if (isset($_SESSION['error_msg'])): ?>
-            <div class="alert alert-danger">
-                <?php 
-                echo $_SESSION['error_msg'];
-                unset($_SESSION['error_msg']);
-                ?>
-            </div>
-        <?php endif; ?>
+            <?php if (isset($_SESSION['error_msg'])): ?>
+                <div class="alert alert-danger">
+                    <?php 
+                    echo $_SESSION['error_msg'];
+                    unset($_SESSION['error_msg']);
+                    ?>
+                </div>
+            <?php endif; ?>
 
-        <div class="row">
-            <!-- Add/Edit Agent Form -->
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><?php echo isset($edit_agent['agent_id']) && $edit_agent['agent_id'] ? 'Edit Agent' : 'Add New Agent'; ?></h3>
-                    </div>
-                    <div class="panel-body">
-                        <form action="" method="POST">
-                            <?php if (isset($edit_agent['agent_id']) && $edit_agent['agent_id']): ?>
-                                <input type="hidden" name="agent_id" value="<?php echo htmlspecialchars($edit_agent['agent_id']); ?>">
-                            <?php endif; ?>
-                            
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name="agent_name" class="form-control" 
-                                       value="<?php echo htmlspecialchars($edit_agent['agent_name']); ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" name="agent_address" class="form-control" 
-                                       value="<?php echo htmlspecialchars($edit_agent['agent_address']); ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Contact</label>
-                                <input type="text" name="agent_contact" class="form-control" 
-                                       value="<?php echo htmlspecialchars($edit_agent['agent_contact']); ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" name="agent_email" class="form-control" 
-                                       value="<?php echo htmlspecialchars($edit_agent['agent_email']); ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <button type="submit" name="submit_agent" class="btn btn-primary">
-                                    <?php echo isset($edit_agent['agent_id']) && $edit_agent['agent_id'] ? 'Update Agent' : 'Add Agent'; ?>
-                                </button>
+            <div class="row">
+                <!-- Add/Edit Agent Form -->
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo isset($edit_agent['agent_id']) && $edit_agent['agent_id'] ? 'Edit Agent' : 'Add New Agent'; ?></h3>
+                        </div>
+                        <div class="panel-body">
+                            <form action="" method="POST">
                                 <?php if (isset($edit_agent['agent_id']) && $edit_agent['agent_id']): ?>
-                                    <a href="manage-agents.php" class="btn btn-default">Cancel</a>
+                                    <input type="hidden" name="agent_id" value="<?php echo htmlspecialchars($edit_agent['agent_id']); ?>">
                                 <?php endif; ?>
-                            </div>
-                        </form>
+                                
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="agent_name" class="form-control" 
+                                           value="<?php echo htmlspecialchars($edit_agent['agent_name']); ?>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" name="agent_address" class="form-control" 
+                                           value="<?php echo htmlspecialchars($edit_agent['agent_address']); ?>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Contact</label>
+                                    <input type="text" name="agent_contact" class="form-control" 
+                                           value="<?php echo htmlspecialchars($edit_agent['agent_contact']); ?>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" name="agent_email" class="form-control" 
+                                           value="<?php echo htmlspecialchars($edit_agent['agent_email']); ?>" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" name="submit_agent" class="btn btn-primary">
+                                        <?php echo isset($edit_agent['agent_id']) && $edit_agent['agent_id'] ? 'Update Agent' : 'Add Agent'; ?>
+                                    </button>
+                                    <?php if (isset($edit_agent['agent_id']) && $edit_agent['agent_id']): ?>
+                                        <a href="manage-agents.php" class="btn btn-default">Cancel</a>
+                                    <?php endif; ?>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Agents List -->
-            <div class="col-md-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">All Agents</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Address</th>
-                                        <th>Contact</th>
-                                        <th>Email</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($agents as $agent): ?>
+                <!-- Agents List -->
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">All Agents</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
                                         <tr>
-                                            <td><?php echo htmlspecialchars($agent['agent_name']); ?></td>
-                                            <td><?php echo htmlspecialchars($agent['agent_address']); ?></td>
-                                            <td><?php echo htmlspecialchars($agent['agent_contact']); ?></td>
-                                            <td><?php echo htmlspecialchars($agent['agent_email']); ?></td>
-                                            <td>
-                                                <a href="?edit=<?php echo $agent['agent_id']; ?>" 
-                                                   class="btn btn-primary btn-sm">
-                                                    <i class="glyphicon glyphicon-edit"></i> Edit
-                                                </a>
-                                                <form action="" method="POST" style="display: inline-block;" 
-                                                      onsubmit="return confirm('Are you sure you want to delete this agent?');">
-                                                    <input type="hidden" name="agent_id" value="<?php echo $agent['agent_id']; ?>">
-                                                    <button type="submit" name="delete_agent" class="btn btn-danger btn-sm">
-                                                        <i class="glyphicon glyphicon-trash"></i> Delete
-                                                    </button>
-                                                </form>
-                                            </td>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Contact</th>
+                                            <th>Email</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($agents as $agent): ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($agent['agent_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($agent['agent_address']); ?></td>
+                                                <td><?php echo htmlspecialchars($agent['agent_contact']); ?></td>
+                                                <td><?php echo htmlspecialchars($agent['agent_email']); ?></td>
+                                                <td>
+                                                    <a href="?edit=<?php echo $agent['agent_id']; ?>" 
+                                                       class="btn btn-primary btn-sm">
+                                                        <i class="glyphicon glyphicon-edit"></i> Edit
+                                                    </a>
+                                                    <form action="" method="POST" style="display: inline-block;" 
+                                                          onsubmit="return confirm('Are you sure you want to delete this agent?');">
+                                                        <input type="hidden" name="agent_id" value="<?php echo $agent['agent_id']; ?>">
+                                                        <button type="submit" name="delete_agent" class="btn btn-danger btn-sm">
+                                                            <i class="glyphicon glyphicon-trash"></i> Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-.inside-banner {
-    background-color: #337ab7;
-    color: white;
-    padding: 40px 0;
-    margin-bottom: 40px;
-}
+    <style>
+    .inside-banner {
+        background-color: #337ab7;
+        color: white;
+        padding: 40px 0;
+        margin-bottom: 40px;
+    }
 
-.inside-banner h2 {
-    margin: 0;
-    color: white;
-}
+    .inside-banner h2 {
+        margin: 0;
+        color: white;
+    }
 
-.panel {
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
-}
+    .panel {
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
 
-.panel-heading {
-    background-color: #337ab7 !important;
-    color: white !important;
-    border-radius: 3px 3px 0 0;
-}
+    .panel-heading {
+        background-color: #337ab7 !important;
+        color: white !important;
+        border-radius: 3px 3px 0 0;
+    }
 
-.btn-sm {
-    margin: 2px;
-}
+    .btn-sm {
+        margin: 2px;
+    }
 
-.table > thead > tr > th {
-    background-color: #f5f5f5;
-}
+    .table > thead > tr > th {
+        background-color: #f5f5f5;
+    }
 
-.form-group {
-    margin-bottom: 20px;
-}
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-.alert {
-    margin-bottom: 20px;
-}
+    .alert {
+        margin-bottom: 20px;
+    }
 
-.btn-primary {
-    background-color: #563207;
-    border-color: #563207;
-}
+    .btn-primary {
+        background-color: #563207;
+        border-color: #563207;
+    }
 
-.btn-primary:hover {
-    background-color: #3E2405;
-    border-color: #3E2405;
-}
-</style>
-<?php include '../includes/footer.php';   ?>    
-</div>
+    .btn-primary:hover {
+        background-color: #3E2405;
+        border-color: #3E2405;
+    }
+    </style>
 
-<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" href="../assets/style.css" />
-<link rel="stylesheet" href="../assets/navbar.css" />
+    <!-- Core JavaScript -->
+    <script src="../assets/jquery-1.9.1.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/script.js"></script>
 
+    <?php include '../includes/footer.php'; ?>
 </body>
-
 </html> 

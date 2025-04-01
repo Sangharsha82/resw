@@ -6,19 +6,15 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Get the current page name
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Only output the head section if we're not already in a page that has it
+if (!isset($head_included)) {
+    $head_included = true;
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><?php echo isset($page_title) ? $page_title : 'Real Estate Management System'; ?></title>
-
     <!-- Bootstrap and Core CSS -->
-    <link rel="stylesheet"
-        href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/style.css" />
+    <link rel="stylesheet" href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/navbar.css" />
 
     <!-- Owl Carousel -->
     <link rel="stylesheet"
@@ -111,57 +107,52 @@ $current_page = basename($_SERVER['PHP_SELF']);
         src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/slitslider/js/modernizr.custom.79639.js"></script>
     <script src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/slitslider/js/jquery.ba-cond.min.js"></script>
     <script src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/slitslider/js/jquery.slitslider.js"></script>
-</head>
+<?php } ?>
 
-<body>
-    <!-- Header Starts -->
-    <div class="navbar-wrapper">
-        <div class="navbar-inverse">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>index.php">
-                        <img src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/images/logo.png" alt="Jaggamandu Logo">
-                    </a>
-                </div>
-
-                <!-- Nav Starts -->
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="<?php echo $current_page == 'index.php' ? 'active' : ''; ?>">
-                            <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>index.php">HOME</a>
-                        </li>
-                        <li class="<?php echo $current_page == 'about.php' ? 'active' : ''; ?>">
-                            <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>about.php">ABOUT</a>
-                        </li>
-                        <li class="<?php echo $current_page == 'contact.php' ? 'active' : ''; ?>">
-                            <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>contact.php">CONTACT</a>
-                        </li>
-                        <?php if (isset($_SESSION['user_id'])): ?>
-                            <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
-                                <li><a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>admin/admin.php">Welcome, <?php echo $_SESSION['username']; ?></a></li>
-                            <?php else: ?>
-                                <li><a href="#" style="pointer-events: none;">Welcome, <?php echo $_SESSION['username']; ?></a></li>
-                            <?php endif; ?>
-                            <li><a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>logout.php">LOGOUT</a></li>
-                        <?php else: ?>
-                            <li class="<?php echo $current_page == 'login.php' ? 'active' : ''; ?>">
-                                <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>login.php">LOGIN</a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
-                <!-- #Nav Ends -->
+<!-- Header Starts -->
+<div class="navbar-wrapper">
+    <div class="navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>index.php">
+                    <img src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/images/logo.png" alt="Jaggamandu Logo">
+                </a>
             </div>
+
+            <!-- Nav Starts -->
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="<?php echo $current_page == 'index.php' ? 'active' : ''; ?>">
+                        <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>index.php">HOME</a>
+                    </li>
+                    <li class="<?php echo $current_page == 'about.php' ? 'active' : ''; ?>">
+                        <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>about.php">ABOUT</a>
+                    </li>
+                    <li class="<?php echo $current_page == 'contact.php' ? 'active' : ''; ?>">
+                        <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>contact.php">CONTACT</a>
+                    </li>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1): ?>
+                            <li><a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>admin/admin.php">Welcome, <?php echo $_SESSION['username']; ?></a></li>
+                        <?php else: ?>
+                            <li><a href="#" style="pointer-events: none;">Welcome, <?php echo $_SESSION['username']; ?></a></li>
+                        <?php endif; ?>
+                        <li><a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>logout.php">LOGOUT</a></li>
+                    <?php else: ?>
+                        <li class="<?php echo $current_page == 'login.php' ? 'active' : ''; ?>">
+                            <a href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>login.php">LOGIN</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <!-- #Nav Ends -->
         </div>
     </div>
-    <!-- #Header Starts -->
-
-   
-</body>
-</html> 
+</div>
+<!-- #Header Ends --> 

@@ -12,6 +12,8 @@ if (!isAdmin()) {
 $isSubDirectory = true;
 $page_title = "Manage Properties - Admin Dashboard";
 
+include '../includes/nav.php';
+
 // Handle property deletion
 if (isset($_POST['delete_property'])) {
     $property_id = mysqli_real_escape_string($con, $_POST['property_id']);
@@ -38,7 +40,6 @@ if (isset($_POST['delete_property'])) {
 $query = "SELECT * FROM properties ORDER BY property_id DESC";
 $result = mysqli_query($con, $query);
 
-include '../includes/nav.php';
 ?>
 
 <!-- banner -->

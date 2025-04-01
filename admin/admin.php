@@ -67,7 +67,11 @@ include '../includes/nav.php';
         background-color: #3E2405;
         border-color: #3E2405;
     }
+    .container{
+        padding-top: 20px;  
+    }   
     </style>
+
 </head>
 <body>
  
