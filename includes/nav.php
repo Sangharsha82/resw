@@ -35,12 +35,12 @@ if (!isset($head_included)) {
         }
 
         .navbar-inverse {
-            background-color: #124559; /* Turquoise color from the image */
+            background-color:rgb(141, 80, 0); /* Turquoise color from the image */
         }
 
         .navbar-inverse .navbar-nav > li > a {
-            font-size: 14px;
-            padding: 15px 20px;
+            font-size: 15px;
+            padding: 20px 20px;
             font-family: din;
             text-transform: uppercase;
             color: #fff;
@@ -48,14 +48,14 @@ if (!isset($head_included)) {
         }
 
         .navbar-inverse .navbar-nav > li > a:hover {
-            background-color: #598392;
+            background-color:rgb(106, 60, 17);
             color: #fff;
         }
 
         .navbar-inverse .navbar-nav > .active > a,
         .navbar-inverse .navbar-nav > .active > a:hover,
         .navbar-inverse .navbar-nav > .active > a:focus {
-            background-color: #01161E;
+            background-color:rgb(42, 19, 0);
             color: #fff;
         }
 
@@ -112,7 +112,7 @@ if (!isset($head_included)) {
 <!-- Header Starts -->
 <div class="navbar-wrapper">
     <div class="navbar-inverse">
-        <div class="container">
+        <div class="container1">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -121,7 +121,7 @@ if (!isset($head_included)) {
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="<?php echo isset($isSubDirectory) ? '../' : ''; ?>index.php">
-                    <img src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/images/logo.png" alt="Jaggamandu Logo">
+                    <img src="<?php echo isset($isSubDirectory) ? '../' : ''; ?>assets/images/logo1.png" alt="Jaggamandu Logo">
                 </a>
             </div>
 

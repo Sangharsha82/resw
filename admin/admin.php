@@ -54,9 +54,7 @@ include '../includes/nav.php';
     <title><?php echo $page_title; ?></title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="../assets/style.css" />
-    <link rel="stylesheet" href="../assets/navbar.css" />
+    
     <style>
     .btn-primary {
         background-color: #563207;
