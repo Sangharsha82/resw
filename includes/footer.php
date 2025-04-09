@@ -21,10 +21,10 @@ $basePath = $isSubDirectory ? '../' : '';
                 <div class="col-lg-4 col-md-6 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>">Home</a></li>
-                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>about.php">About Us</a></li>
-                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>contact.php">Contact</a></li>
-                        <li><i class="fas fa-chevron-right"></i> <a href="<?php echo $basePath; ?>properties.php">Properties</a></li>
+                        <li><i class=""></i> <a href="<?php echo $basePath; ?>">Home</a></li>
+                        <li><i class=""></i> <a href="<?php echo $basePath; ?>about.php">About Us</a></li>
+                        <li><i class=""></i> <a href="<?php echo $basePath; ?>contact.php">Contact</a></li>
+                        <li><i class=""></i> <a href="<?php echo $basePath; ?>properties.php">Properties</a></li>
                     </ul>
                 </div>
 
@@ -32,9 +32,9 @@ $basePath = $isSubDirectory ? '../' : '';
                     <h4>Contact Us</h4>
                     <p>
                         <strong>Jaggamandu</strong><br>
-                        <i class="fas fa-map-marker-alt"></i> Bhaktapur<br>
-                        <i class="fas fa-envelope"></i> <a href="mailto:jaggamandubkt@gmail.com">jaggamandubkt@gmail.com</a><br>
-                        <i class="fas fa-phone"></i> +123456789
+                        <i class=""></i> Bhaktapur<br>
+                        <i class=""></i> <a href="mailto:jaggamandubkt@gmail.com">jaggamandubkt@gmail.com</a><br>
+                        <i class=""></i> +123456789
                     </p>
                 </div>
             </div>

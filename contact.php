@@ -38,10 +38,13 @@ if (isset($_POST['submit'])) {
     $subject = sanitize($_POST['subject']);
     $message = sanitize($_POST['message']);
 
-    // Insert message into database
-    $query = "INSERT INTO messages (name, email, subject, message) VALUES (?, ?, ?, ?)";
+    // Get user_id if logged in, otherwise use a default guest user
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1; // Using admin (ID 1) as default for guest messages
+
+    // Insert message into database with user_id
+    $query = "INSERT INTO messages (name, email, subject, message, user_id) VALUES (?, ?, ?, ?, ?)";
     $stmt = $con->prepare($query);
-    $stmt->bind_param("ssss", $name, $email, $subject, $message);
+    $stmt->bind_param("ssssi", $name, $email, $subject, $message, $user_id);
 
     if ($stmt->execute()) {
         $status_msg = '<div class="alert alert-success">Your message has been sent successfully!</div>';
@@ -52,7 +55,13 @@ if (isset($_POST['submit'])) {
 
 include 'includes/nav.php';
 ?>
-
+<style>
+   .social-links img {
+    width: 20px;
+    height: 20px;
+    margin-top: 7px;
+}
+</style>
 <!-- banner -->
 <div class="inside-banner">
     <div class="container">
@@ -71,7 +80,7 @@ include 'includes/nav.php';
                         Jaggamandu<br>
                         Bhaktapur, Nepal<br>
                         Phone: +123456789<br>
-                        Email: info@jaggadhaninepalbkt.com</p>
+                        Email: info@jaggamandubkt.com</p>
                 </div>
             </div>
             <div class="col-lg-6 col-sm-6">

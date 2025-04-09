@@ -68,13 +68,7 @@ if (!$result) {
             <form action="search.php" method="post" id="searchForm" onsubmit="return validateSearch()">
               <input type="text" class="form-control" name="search" placeholder="Search of Properties" required>
               <div class="row">
-                <div class="col-lg-5">
-                  <select name="delivery_type" class="form-control" required>
-                    <option value="">Select Type</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Sale">Sale</option>
-                  </select>
-                </div>
+                
                 <div class="col-lg-7">
                   <select name="search_price" class="form-control" required>
                     <option value="">Select Price Range</option>
@@ -86,16 +80,7 @@ if (!$result) {
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-lg-12">
-                  <select name="property_type" class="form-control" required>
-                    <option value="">Select Property Type</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Building">Building</option>
-                    <option value="Office-Space">Office-Space</option>
-                  </select>
-                </div>
-              </div>
+              
               <button name="submit" class="btn btn-primary">Find Now</button>
             </form>
 
@@ -148,37 +133,26 @@ if (!$result) {
             while ($property_result = mysqli_fetch_assoc($result)) {
               $id = $property_result['property_id'];
               $property_title = $property_result['property_title'];
-              $delivery_type = $property_result['delivery_type'];
-              $availablility = $property_result['availablility'];
               $price = $property_result['price'];
               $property_img = $property_result['property_img'];
-              $bed_room = $property_result['bed_room'];
-              $liv_room = $property_result['liv_room'];
-              $parking = $property_result['parking'];
-              $kitchen = $property_result['kitchen'];
-              $utility = $property_result['utility'];
+              $property_address = $property_result['property_address'];
+              $floor_space = $property_result['floor_space'];
+              $agent_id = $property_result['agent_id'];
 
               ?>
               <div class="col-lg-4 col-sm-6">
                 <div class="properties">
                   <div class="image-holder">
-                    <img src="<?php echo $property_img ? '../' . $property_img : '../images/properties/default1.png'; ?>" class="img-responsive"
-                      alt="<?php echo htmlspecialchars($property_title); ?>">
+                    <?php 
+                    $images = explode(',', $property_img);
+                    $main_image = !empty($images[0]) ? '../' . $images[0] : '../images/properties/default1.png';
+                    ?>
+                    <img src="<?php echo $main_image; ?>" class="img-responsive" alt="<?php echo htmlspecialchars($property_title); ?>">
                   </div>
                   <h4><?php echo $property_title; ?></h4>
-                  <p class="price">Price: $<?php echo $price; ?></p>
-                  <p class="price">Delivery Type: <?php echo $delivery_type; ?></p>
-                  <p class="price">Utilities: <?php echo $utility; ?></p>
-                  <div class="listing-detail">
-                    <span data-toggle="tooltip" data-placement="bottom"
-                      data-original-title="Bed Room"><?php echo $bed_room; ?></span>
-                    <span data-toggle="tooltip" data-placement="bottom"
-                      data-original-title="Living Room"><?php echo $liv_room; ?></span>
-                    <span data-toggle="tooltip" data-placement="bottom"
-                      data-original-title="Parking"><?php echo $parking; ?></span>
-                    <span data-toggle="tooltip" data-placement="bottom"
-                      data-original-title="Kitchen"><?php echo $kitchen; ?></span>
-                  </div>
+                  <p class="price">Price: Rs<?php echo number_format($price); ?></p>
+                  <p class="price">Floor Space: <?php echo $floor_space; ?></p>
+                  <p class="price">Address: <?php echo $property_address; ?></p>
                   <?php if (isLoggedIn()) { ?>
                     <a class="btn btn-primary" href="property-detail.php?id=<?php echo $id; ?>">View Details</a>
                   <?php } else { ?>

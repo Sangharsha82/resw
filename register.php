@@ -154,14 +154,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
                     <hr>
-                    <p>Already have an account? <a href="login.php">Login here</a></p>
+                    <p>Already have an account? <a style="color: black; border-color: black; border-bottom: 1px" href="login.php">Login here</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php include '../includes/footer.php';   ?>    
+<?php include 'includes/footer.php';   ?>    
 </body>
 
 </html>

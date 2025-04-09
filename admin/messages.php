@@ -49,6 +49,88 @@ $result = mysqli_query($con, $query);
 include '../includes/nav.php';
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?php echo $page_title; ?></title>
+    
+    <style>
+    :root {
+        --primary-color: #572a00;
+        --hover-color: #562700;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    img {
+        margin-top: 3px;
+    }
+    
+    .inside-banner {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 40px 0;
+        margin-bottom: 40px;
+    }
+    
+    .inside-banner h2 {
+        margin: 0;
+        color: var(--white);
+    }
+    
+    .panel {
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        border: none;
+        margin-bottom: 30px;
+    }
+    
+    .panel-heading {
+        background-color: var(--primary-color) !important;
+        color: var(--white) !important;
+        border-radius: 10px 10px 0 0;
+        padding: 15px 20px;
+    }
+    
+    .btn-sm {
+        margin: 2px;
+    }
+    
+    .table > thead > tr > th {
+        background-color: #f5f5f5;
+    }
+    
+    .alert {
+        margin-bottom: 20px;
+    }
+    
+    .label {
+        display: inline-block;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 3px;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    .social-links img {
+    width: 20px;
+    height: 20px;
+    margin-top: 7px;
+} 
+    .btn-primary:hover {
+        background-color: var(--hover-color);
+        border-color: var(--hover-color);
+    }
+    </style>
+</head>
+<body>
+
 <!-- banner -->
 <div class="inside-banner">
     <div class="container">
@@ -162,65 +244,7 @@ include '../includes/nav.php';
     </div>
 </div>
 
-<style>
-.inside-banner {
-    background-color: #337ab7;
-    color: white;
-    padding: 40px 0;
-    margin-bottom: 40px;
-}
-
-.inside-banner h2 {
-    margin: 0;
-    color: white;
-}
-
-.panel {
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.panel-heading {
-    background-color: #337ab7 !important;
-    color: white !important;
-    border-radius: 3px 3px 0 0;
-}
-
-.btn-sm {
-    margin: 2px;
-}
-
-.table > thead > tr > th {
-    background-color: #f5f5f5;
-}
-
-.alert {
-    margin-bottom: 20px;
-}
-
-.label {
-    display: inline-block;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 3px;
-}
-
-.btn-primary {
-    background-color: #563207;
-    border-color: #563207;
-}
-
-.btn-primary:hover {
-    background-color: #3E2405;
-    border-color: #3E2405;
-}
-</style>
-
 <?php include '../includes/footer.php';   ?>    
-
-<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" href="../assets/style.css" />
-<link rel="stylesheet" href="../assets/navbar.css" />
 
 </body>
 </html> 

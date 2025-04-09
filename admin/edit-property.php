@@ -30,16 +30,12 @@ if (isset($_GET['id'])) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = mysqli_real_escape_string($con, $_POST['title']);
-    $type = mysqli_real_escape_string($con, $_POST['type']);
-    $price = mysqli_real_escape_string($con, $_POST['price']);
-    $status = mysqli_real_escape_string($con, $_POST['status']);
-    $bedrooms = mysqli_real_escape_string($con, $_POST['bedrooms']);
-    $bathrooms = mysqli_real_escape_string($con, $_POST['bathrooms']);
-    $living_rooms = mysqli_real_escape_string($con, $_POST['living_rooms']);
-    $kitchen = mysqli_real_escape_string($con, $_POST['kitchen']);
-    $parking = mysqli_real_escape_string($con, $_POST['parking']);
-    $utilities = mysqli_real_escape_string($con, $_POST['utilities']);
+    $property_title = sanitize($_POST['property_title']);
+    $property_details = sanitize($_POST['property_details']);
+    $price = sanitize($_POST['price']);
+    $property_address = sanitize($_POST['property_address']);
+    $floor_space = sanitize($_POST['floor_space']);
+    $agent_id = sanitize($_POST['agent_id']);
     
     // Handle image upload
     $image_path = $property['property_img'];
@@ -65,15 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Update property
     $query = "UPDATE properties SET 
-              property_title = '$title',
-              delivery_type = '$type',
+              property_title = '$property_title',
+              property_details = '$property_details',
               price = '$price',
-              availablility = '$status',
-              bed_room = '$bedrooms',
-              liv_room = '$living_rooms',
-              parking = '$parking',
-              kitchen = '$kitchen',
-              utility = '$utilities',
+              property_address = '$property_address',
+              floor_space = '$floor_space',
+              agent_id = '$agent_id',
               property_img = '$image_path'
               WHERE property_id = '$property_id'";
               
@@ -84,16 +77,146 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-include '../includes/nav.php';
+// Get all agents for the dropdown
+$agents_query = "SELECT agent_id, agent_name FROM agent";
+$agents_result = mysqli_query($con, $agents_query);
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?php echo $page_title; ?></title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="../assets/style.css" />
+    <link rel="stylesheet" href="../assets/navbar.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <style>
+    :root {
+        --primary-color: #563207;
+        --hover-color: #3E2405;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-<!-- banner -->
-<div class="inside-banner">
-    <div class="container">
-        <h2>Edit Property</h2>
-    </div>
-</div>
-<!-- banner -->
+    .navbar {
+        min-height: 50px;
+    }
+
+    .navbar-brand {
+        padding: 0 15px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .navbar-brand img {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .navbar-nav>li>a {
+        line-height: 50px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    @media (max-width: 767px) {
+        .navbar-nav>li>a {
+            line-height: normal;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+
+    img {
+        margin-top: 3px;
+    }
+
+    .inside-banner {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 40px 0;
+        margin-bottom: 40px;
+    }
+
+    .inside-banner h2 {
+        margin: 0;
+        color: var(--white);
+    }
+
+    .panel {
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        border: none;
+        margin-bottom: 30px;
+    }
+
+    .panel-heading {
+        background-color: var(--primary-color) !important;
+        color: var(--white) !important;
+        border-radius: 10px 10px 0 0;
+        padding: 15px 20px;
+    }
+
+    .panel-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        height: auto;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(87, 42, 0, 0.25);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        padding: 8px 20px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--hover-color);
+        border-color: var(--hover-color);
+    }
+
+    .alert {
+        border-radius: 4px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: var(--shadow);
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    </style>
+</head>
+<body>
+
+<?php include '../includes/nav.php'; ?>
 
 <div class="container">
     <div class="properties-listing spacer">
@@ -107,15 +230,7 @@ include '../includes/nav.php';
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Property Title</label>
-                                <input type="text" name="title" class="form-control" value="<?php echo htmlspecialchars($property['property_title']); ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Type</label>
-                                <select name="type" class="form-control" required>
-                                    <option value="Sale" <?php echo $property['delivery_type'] == 'Sale' ? 'selected' : ''; ?>>Sale</option>
-                                    <option value="Rent" <?php echo $property['delivery_type'] == 'Rent' ? 'selected' : ''; ?>>Rent</option>
-                                </select>
+                                <input type="text" name="property_title" class="form-control" value="<?php echo htmlspecialchars($property['property_title']); ?>" required>
                             </div>
                             
                             <div class="form-group">
@@ -124,43 +239,37 @@ include '../includes/nav.php';
                             </div>
                             
                             <div class="form-group">
-                                <label>Status</label>
-                                <select name="status" class="form-control" required>
-                                    <option value="Available" <?php echo $property['availablility'] == 'Available' ? 'selected' : ''; ?>>Available</option>
-                                    <option value="Sold" <?php echo $property['availablility'] == 'Sold' ? 'selected' : ''; ?>>Sold</option>
-                                    <option value="Reserved" <?php echo $property['availablility'] == 'Reserved' ? 'selected' : ''; ?>>Reserved</option>
-                                </select>
+                                <label>Property Address</label>
+                                <input type="text" name="property_address" class="form-control" value="<?php echo htmlspecialchars($property['property_address']); ?>" required>
                             </div>
                         </div>
                         
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Bedrooms</label>
-                                <input type="number" name="bedrooms" class="form-control" value="<?php echo $property['bed_room']; ?>" required>
+                                <label>Floor Space</label>
+                                <input type="text" name="floor_space" class="form-control" value="<?php echo htmlspecialchars($property['floor_space']); ?>" required>
                             </div>
                             
                             <div class="form-group">
-                                <label>Living Rooms</label>
-                                <input type="number" name="living_rooms" class="form-control" value="<?php echo $property['liv_room']; ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Parking Spaces</label>
-                                <input type="number" name="parking" class="form-control" value="<?php echo $property['parking']; ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Kitchen</label>
-                                <input type="number" name="kitchen" class="form-control" value="<?php echo $property['kitchen']; ?>" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Utilities</label>
-                                <input type="text" name="utilities" class="form-control" value="<?php echo htmlspecialchars($property['utility']); ?>" required>
+                                <label>Assign Agent</label>
+                                <select name="agent_id" class="form-control" required>
+                                    <option value="">Select Agent</option>
+                                    <?php while($agent = mysqli_fetch_assoc($agents_result)): ?>
+                                        <option value="<?php echo $agent['agent_id']; ?>" 
+                                            <?php echo $property['agent_id'] == $agent['agent_id'] ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($agent['agent_name']); ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
                             </div>
                         </div>
                         
                         <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Property Details</label>
+                                <textarea name="property_details" class="form-control" rows="5" required><?php echo htmlspecialchars($property['property_details']); ?></textarea>
+                            </div>
+                            
                             <div class="form-group">
                                 <label>Property Image</label>
                                 <input type="file" name="property_image" class="form-control" accept="image/*">
@@ -185,55 +294,7 @@ include '../includes/nav.php';
     </div>
 </div>
 
-<style>
-.inside-banner {
-    background-color: #337ab7;
-    color: white;
-    padding: 40px 0;
-    margin-bottom: 40px;
-}
-
-.inside-banner h2 {
-    margin: 0;
-    color: white;
-}
-
-.panel {
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.panel-heading {
-    background-color: #337ab7 !important;
-    color: white !important;
-    border-radius: 3px 3px 0 0;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.help-block {
-    margin-top: 10px;
-}
-
-.btn-primary {
-    background-color: #563207;
-    border-color: #563207;
-}
-
-.btn-primary:hover {
-    background-color: #3E2405;
-    border-color: #3E2405;
-}
-</style>
-
-<?php include '../includes/footer.php';   ?>    
-
-<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" href="../assets/style.css" />
-<link rel="stylesheet" href="../assets/navbar.css" />
+<?php include '../includes/footer.php'; ?>
 
 </body>
-
 </html> 

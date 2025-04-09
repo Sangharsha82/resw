@@ -35,7 +35,7 @@ if (!isset($head_included)) {
         }
 
         .navbar-inverse {
-            background-color:rgb(141, 80, 0); /* Turquoise color from the image */
+            background-color:rgb(167, 78, 0); /* Turquoise color from the image */
         }
 
         .navbar-inverse .navbar-nav > li > a {
@@ -48,14 +48,14 @@ if (!isset($head_included)) {
         }
 
         .navbar-inverse .navbar-nav > li > a:hover {
-            background-color:rgb(106, 60, 17);
+            background-color:#e16d00;
             color: #fff;
         }
 
         .navbar-inverse .navbar-nav > .active > a,
         .navbar-inverse .navbar-nav > .active > a:hover,
         .navbar-inverse .navbar-nav > .active > a:focus {
-            background-color:rgb(42, 19, 0);
+            background-color:#562700;
             color: #fff;
         }
 

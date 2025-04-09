@@ -23,28 +23,20 @@ if (!isAdmin()) {
 $isSubDirectory = true;
 $page_title = "Admin Dashboard - Real Estate Management System";
 
-// Get dashboard statistics
-$stats = array();
-
-// Total Properties
+// Get total properties
 $query = "SELECT COUNT(*) as total FROM properties";
 $result = mysqli_query($con, $query);
-$stats['total_properties'] = mysqli_fetch_assoc($result)['total'];
+$total_properties = mysqli_fetch_assoc($result)['total'];
 
-// Properties for Sale
-$query = "SELECT COUNT(*) as total FROM properties WHERE delivery_type = 'Sale'";
-$result = mysqli_query($con, $query);
-$stats['properties_for_sale'] = mysqli_fetch_assoc($result)['total'];
-
-// Properties for Rent
-$query = "SELECT COUNT(*) as total FROM properties WHERE delivery_type = 'Rent'";
-$result = mysqli_query($con, $query);
-$stats['properties_for_rent'] = mysqli_fetch_assoc($result)['total'];
-
-// Total Agents
+// Get total agents
 $query = "SELECT COUNT(*) as total FROM agent";
 $result = mysqli_query($con, $query);
-$stats['total_agents'] = mysqli_fetch_assoc($result)['total'];
+$total_agents = mysqli_fetch_assoc($result)['total'];
+
+// Get total users
+$query = "SELECT COUNT(*) as total FROM users";
+$result = mysqli_query($con, $query);
+$total_users = mysqli_fetch_assoc($result)['total'];
 
 include '../includes/nav.php';
 ?>
@@ -54,25 +46,151 @@ include '../includes/nav.php';
     <title><?php echo $page_title; ?></title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     
     <style>
-    .btn-primary {
-        background-color: #563207;
-        border-color: #563207;
+    :root {
+        --primary-color: #563207;
+        --hover-color: #3E2405;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    
-    .btn-primary:hover {
-        background-color: #3E2405;
-        border-color: #3E2405;
-    }
-    .container{
-        padding-top: 20px;  
-    }   
-    </style>
 
+    .dashboard-container {
+        padding: 2rem 0;
+        background-color: var(--light-bg);
+    }
+
+    .stats-card {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow);
+    }
+
+    .action-card {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow);
+    }
+
+    .action-card:hover {
+        box-shadow: var(--shadow);
+    }
+
+    .action-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .action-title {
+        color: #333;
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .action-description {
+        color: #666;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-action {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-action:hover {
+        background-color: var(--hover-color);
+        color: var(--white);
+    }
+
+    .section-title {
+        color: #333;
+        margin-bottom: 2rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-color);
+    }
+
+    /* Panel Styles */
+    .panel {
+        border: none;
+        box-shadow: var(--shadow);
+    }
+
+    .panel-heading {
+        background-color: var(--primary-color) !important;
+        color: var(--white) !important;
+        border-radius: 10px 10px 0 0 !important;
+        padding: 1rem !important;
+    }
+
+    .panel-primary {
+        border-color: var(--primary-color);
+    }
+
+    .panel-green {
+        border-color: #5cb85c;
+    }
+
+    .panel-yellow {
+        border-color: #f0ad4e;
+    }
+
+    .panel-primary .panel-heading {
+        background-color: var(--primary-color) !important;
+    }
+
+    .panel-green .panel-heading {
+        background-color: #5cb85c !important;
+    }
+
+    .panel-yellow .panel-heading {
+        background-color: #f0ad4e !important;
+    }
+
+    .huge {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .dashboard-number {
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin: 1rem 0;
+    }
+    .social-links img {
+    width: 20px;
+    height: 20px;
+    margin-top: 7px;
+}
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .stats-card, .action-card {
+            margin-bottom: 1rem;
+        }
+        
+        .huge {
+            font-size: 2rem;
+        }
+    }
+    </style>
 </head>
 <body>
- 
+
 <!-- banner -->
 <div class="inside-banner">
     <div class="container">
@@ -81,161 +199,65 @@ include '../includes/nav.php';
 </div>
 <!-- banner -->
 
-<div class="container">
-    <!-- Statistics Cards -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Total Properties</h3>
+<div class="dashboard-container">
+    <div class="container">
+        <!-- Statistics Section -->
+        <h3 class="section-title">Dashboard Overview</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="action-card">
+                    <i class="fas fa-home action-icon"></i>
+                    <h4 class="action-title">Total Properties</h4>
+                    <div class="dashboard-number"><?php echo $total_properties; ?></div>
                 </div>
-                <div class="panel-body">
-                    <h3><?php echo $stats['total_properties']; ?></h3>
+            </div>
+            <div class="col-md-6">
+                <div class="action-card">
+                    <i class="fas fa-users action-icon"></i>
+                    <h4 class="action-title">Total Agents</h4>
+                    <div class="dashboard-number"><?php echo $total_agents; ?></div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Properties for Sale</h3>
-                </div>
-                <div class="panel-body">
-                    <h3><?php echo $stats['properties_for_sale']; ?></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Properties for Rent</h3>
-                </div>
-                <div class="panel-body">
-                    <h3><?php echo $stats['properties_for_rent']; ?></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Total Agents</h3>
-                </div>
-                <div class="panel-body">
-                    <h3><?php echo $stats['total_agents']; ?></h3>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Property Actions and Quick Actions -->
-    <!-- Property Actions -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel" style="background: transparent; border: none; box-shadow: none;">
-                <div class="panel-heading" style="background: #337ab7; color: white; border-radius: 4px;">
-                    <h3 class="panel-title">Property Actions</h3>
+        <!-- Property Actions Section -->
+        <h3 class="section-title">Property Management</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="action-card">
+                    <i class="fas fa-plus-circle action-icon"></i>
+                    <h4 class="action-title">Add Property</h4>
+                    <p class="action-description">Add a new property listing to the system</p>
+                    <a href="add-property.php" class="btn-action">Add New Property</a>
                 </div>
-                <div class="panel-body" style="background: #222; padding: 15px; border-radius: 4px;">
-                    <div class="row" style="display: flex; flex-wrap: wrap;">
-                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
-                            <div style="background: #1e472e; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
-                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
-                                    <i class="glyphicon glyphicon-plus" style="font-size: 28px;"></i>
-                                    <h4 style="margin: 8px 0;">Add Property</h4>
-                                </div>
-                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <p style="margin: 5px 0;">Add a new property listing to the system</p>
-                                    <a href="add-property.php" class="btn btn-primary" style="background: #563207; border: none; margin-top: 5px; padding: 6px 12px;">
-                                        Add New Property
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
-                            <div style="background: #1b4b5a; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
-                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
-                                    <i class="glyphicon glyphicon-edit" style="font-size: 28px;"></i>
-                                    <h4 style="margin: 8px 0;">Edit Property</h4>
-                                </div>
-                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <p style="margin: 5px 0;">Modify existing property listings</p>
-                                    <a href="manage-properties.php" class="btn" style="background: #2a7286; border: none; color: white; margin-top: 5px; padding: 6px 12px;">
-                                        Edit Properties
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
-                            <div style="background: #4a1f1f; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
-                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
-                                    <i class="glyphicon glyphicon-trash" style="font-size: 28px;"></i>
-                                    <h4 style="margin: 8px 0;">Delete Property</h4>
-                                </div>
-                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <p style="margin: 5px 0;">Remove property listings from the system</p>
-                                    <a href="manage-properties.php" class="btn btn-danger" style="background: #8b3232; border: none; margin-top: 5px; padding: 6px 12px;">
-                                        Delete Properties
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="action-card">
+                    <i class="fas fa-tasks action-icon"></i>
+                    <h4 class="action-title">Manage Properties</h4>
+                    <p class="action-description">Edit or delete existing property listings</p>
+                    <a href="manage-properties.php" class="btn-action">Manage Properties</a>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Quick Actions -->
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-md-12">
-            <div class="panel" style="background: transparent; border: none; box-shadow: none;">
-                <div class="panel-heading" style="background: #333; color: white; border-radius: 4px;">
-                    <h3 class="panel-title">Quick Actions</h3>
+        <!-- Quick Actions Section -->
+        <h3 class="section-title">Quick Actions</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="action-card">
+                    <i class="fas fa-user-tie action-icon"></i>
+                    <h4 class="action-title">Manage Agents</h4>
+                    <p class="action-description">Add, edit, or remove agents</p>
+                    <a href="manage-agents.php" class="btn-action">Manage Agents</a>
                 </div>
-                <div class="panel-body" style="background: #222; padding: 15px; border-radius: 4px;">
-                    <div class="row" style="display: flex; flex-wrap: wrap;">
-                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
-                            <div style="background: #4a4a1f; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
-                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
-                                    <i class="glyphicon glyphicon-user" style="font-size: 28px;"></i>
-                                    <h4 style="margin: 8px 0;">Manage Agents</h4>
-                                </div>
-                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <p style="margin: 5px 0;">Add, edit, or remove agents</p>
-                                    <a href="manage-agents.php" class="btn" style="background: #7d7d33; border: none; color: white; margin-top: 5px; padding: 6px 12px;">
-                                        Manage Agents
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
-                            <div style="background: #1b4b5a; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
-                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
-                                    <i class="glyphicon glyphicon-users" style="font-size: 28px;"></i>
-                                    <h4 style="margin: 8px 0;">Manage Users</h4>
-                                </div>
-                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <p style="margin: 5px 0;">Manage user accounts and permissions</p>
-                                    <a href="manage-users.php" class="btn" style="background: #2a7286; border: none; color: white; margin-top: 5px; padding: 6px 12px;">
-                                        Manage Users
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="padding: 0 15px; display: flex;">
-                            <div style="background: #4a1f4a; border-radius: 4px; width: 100%; display: flex; flex-direction: column;">
-                                <div style="padding: 12px 10px 5px; text-align: center; color: white;">
-                                    <i class="glyphicon glyphicon-envelope" style="font-size: 28px;"></i>
-                                    <h4 style="margin: 8px 0;">Messages</h4>
-                                </div>
-                                <div style="padding: 5px 10px 12px; text-align: center; color: #ccc; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                                    <p style="margin: 5px 0;">View and manage user messages</p>
-                                    <a href="messages.php" class="btn" style="background: #7d337d; border: none; color: white; margin-top: 5px; padding: 6px 12px;">
-                                        View Messages
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="action-card">
+                    <i class="fas fa-envelope action-icon"></i>
+                    <h4 class="action-title">Messages</h4>
+                    <p class="action-description">View and manage user messages</p>
+                    <a href="messages.php" class="btn-action">View Messages</a>
                 </div>
             </div>
         </div>

@@ -179,7 +179,7 @@ while ($debug_user = $debug_result->fetch_assoc()) {
                         <button type="submit" name="login" class="btn btn-primary">Login</button>
                     </form>
                     <hr>
-                    <p>Don't have an account? <a href="register.php">Register here</a></p>
+                    <p>Don't have an account? <a style="color: black; border-bottom:  black 1px; " href="register.php">Register here</a></p>
                 </div>
             </div>
         </div>

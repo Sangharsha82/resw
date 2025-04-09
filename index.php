@@ -58,6 +58,47 @@ if (!$slider_result) {
 
   <script src='assets/google_analytics_auto.js'></script>
 
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var Page = (function() {
+        var $navArrows = $('#nav-arrows'),
+          $nav = $('#nav-dots > span'),
+          slitslider = $('#slider').slitslider({
+            onBeforeChange: function(slide, pos) {
+              $nav.removeClass('nav-dot-current');
+              $nav.eq(pos).addClass('nav-dot-current');
+            }
+          }),
+          init = function() {
+            initEvents();
+          },
+          initEvents = function() {
+            $navArrows.children(':last').on('click', function() {
+              slitslider.next();
+              return false;
+            });
+            $navArrows.children(':first').on('click', function() {
+              slitslider.prev();
+              return false;
+            });
+            $nav.each(function(i) {
+              $(this).on('click', function(event) {
+                var $dot = $(this);
+                if (!slitslider.isActive()) {
+                  $nav.removeClass('nav-dot-current');
+                  $dot.addClass('nav-dot-current');
+                }
+                slitslider.jump(i + 1);
+                return false;
+              });
+            });
+          };
+        return { init: init };
+      })();
+      Page.init();
+    });
+  </script>
+
   <style>
     .navbar {
       min-height: 50px;
@@ -224,6 +265,42 @@ if (!$slider_result) {
       color: #bdc3c7;
     }
    
+    /* Add background image styles for slider */
+    .bg-img {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    .sl-slider {
+      height: 500px;
+    }
+    
+    .sl-slide-inner {
+      height: 100%;
+      position: relative;
+    }
+    
+    .sl-slide-inner h2 {
+      position: absolute;
+      bottom: 100px;
+      left: 20px;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    }
+    
+    .sl-slide-inner blockquote {
+      position: absolute;
+      bottom: 40px;
+      left: 20px;
+      color: white;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    }
   </style>
 </head>
 
@@ -250,8 +327,6 @@ if (!$slider_result) {
           $property_address = isset($property['property_address']) ? $property['property_address'] : "Address not available";
           $price = $property['price'];
           $property_img = $property['property_img'];
-          $bed_room = $property['bed_room'];
-          $delivery_type = $property['delivery_type'];
           
           // Use default values if we've reached the end of our arrays
           $orientation = isset($orientations[$count]) ? $orientations[$count] : "horizontal";
@@ -269,11 +344,14 @@ if (!$slider_result) {
              data-slice1-scale="<?php echo $slice1_scale; ?>" 
              data-slice2-scale="<?php echo $slice2_scale; ?>">
           <div class="sl-slide-inner">
-            <div class="bg-img <?php echo $bg_img_class; ?>"></div>
-            <h2><a href="properties/property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title; ?></a></h2>
+            <?php 
+            $images = explode(',', $property_img);
+            $main_image = !empty($images[0]) ? $images[0] : 'images/properties/default1.png';
+            ?>
+            <div class="bg-img <?php echo $bg_img_class; ?>" style="background-image: url('<?php echo $main_image; ?>')"></div>
+            <h2><a href="./properties/property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title; ?></a></h2>
             <blockquote>
               <p class="location"><span class="glyphicon glyphicon-map-marker"></span> <?php echo $property_address; ?></p>
-              <p><?php echo $bed_room; ?> Bed Room(s) | <?php echo $delivery_type; ?></p>
               <cite style="background-color: #563207;" >Rs <?php echo number_format($price); ?></cite>
             </blockquote>
           </div>
@@ -303,37 +381,23 @@ if (!$slider_result) {
   <div class="banner-search">
     <div class="container">
       <!-- banner -->
-      <h3>Buy, Sale & Rent</h3>
+      <h3>Search Properties</h3>
       <div class="searchbar">
         <div class="row">
           <div class="col-lg-6 col-sm-6">
-            <form action="properties/search.php" method="post" id="searchForm" onsubmit="return validateSearch()">
+            <form action="properties/search.php" method="post" id="searchForm" onsubmit="return validateForm()">
               <input name="search" type="text" class="form-control" placeholder="Property title" required>
               <div class="row">
                 <div class="col-lg-3 col-sm-3 ">
-                  <select name="delivery_type" class="form-control" required>
-                    <option value="">Select Type</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Sale">Sale</option>
-                  </select>
-                </div>
-                <div class="col-lg-3 col-sm-4">
-                  <select name="search_price" class="form-control" required>
-                    <option value="">Select Price Range</option>
+                  <select name="search_price" class="form-control">
+                    <option value="">Price</option>
                     <option value="1">Rs5000 - Rs50,000</option>
                     <option value="2">Rs50,000 - Rs100,000</option>
                     <option value="3">Rs100,000 - Rs200,000</option>
                     <option value="4">Rs200,000 - above</option>
                   </select>
                 </div>
-                <div class="col-lg-3 col-sm-4">
-                  <select name="property_type" class="form-control" required>
-                    <option value="">Select Property Type</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Building">Building</option>
-                    <option value="Office-Space">Office-Space</option>
-                  </select>
-                </div>
+                
                 <div class="col-lg-3 col-sm-4">
                   <button name="submit" class="btn btn-success" type="submit">Find Now</button>
                 </div>
@@ -341,14 +405,12 @@ if (!$slider_result) {
             </form>
 
             <script>
-            function validateSearch() {
+            function validateForm() {
               var search = document.forms["searchForm"]["search"].value;
-              var delivery_type = document.forms["searchForm"]["delivery_type"].value;
               var search_price = document.forms["searchForm"]["search_price"].value;
-              var property_type = document.forms["searchForm"]["property_type"].value;
               
-              if (search == "" || delivery_type == "" || search_price == "" || property_type == "") {
-                alert("All fields must be filled out");
+              if (search == "" || search_price == "") {
+                alert("Please fill in all fields");
                 return false;
               }
               return true;
@@ -361,7 +423,7 @@ if (!$slider_result) {
   </div>
 
   <div class="container">
-    <div class="properties-listing spacer"> <a href="properties/list-properties.php" class="pull-right viewall">View All
+    <div class="properties-listing spacer"> <a href="./properties/list-properties.php" class="pull-right viewall">View All
         Listing</a>
       <h2>Featured Properties</h2>
       <div id="owl-example" class="owl-carousel">
@@ -372,73 +434,39 @@ if (!$slider_result) {
         while ($property_result = mysqli_fetch_assoc($result)) {
           $id = $property_result['property_id'];
           $property_title = $property_result['property_title'];
-          $delivery_type = $property_result['delivery_type'];
-          $availablility = $property_result['availablility'];
           $price = $property_result['price'];
           $property_img = $property_result['property_img'];
-          $bed_room = $property_result['bed_room'];
-          $liv_room = $property_result['liv_room'];
-          $parking = $property_result['parking'];
-          $kitchen = $property_result['kitchen'];
-          $utility = $property_result['utility'];
+          $property_address = $property_result['property_address'];
+          $floor_space = $property_result['floor_space'];
+          $agent_id = $property_result['agent_id'];
 
           ?>
           <div class="properties">
-            <div class="image-holder"><img src="<?php echo $property_img; ?>" class="img-responsive" alt="properties">
+            <div class="image-holder">
+              <?php 
+              $images = explode(',', $property_img);
+              $main_image = !empty($images[0]) ? $images[0] : 'images/properties/default1.png';
+              ?>
+              <img src="<?php echo $main_image; ?>" class="img-responsive" alt="properties">
             </div>
-            <h4><?php echo $property_title; ?></h4>
-            <p class="price">Price: Rs<?php echo $price; ?></p>
-            <p class="price">Delivery Type: <?php echo $delivery_type; ?></p>
-            <p class="price">Utilities: <?php echo $utility; ?></p>
-            <div class="listing-detail">
-              <span data-toggle="tooltip" data-placement="bottom"
-                data-original-title="Bed Room"><?php echo $bed_room; ?></span>
-              <span data-toggle="tooltip" data-placement="bottom"
-                data-original-title="Living Room"><?php echo $liv_room; ?></span>
-              <span data-toggle="tooltip" data-placement="bottom"
-                data-original-title="Parking"><?php echo $parking; ?></span>
-              <span data-toggle="tooltip" data-placement="bottom"
-                data-original-title="Kitchen"><?php echo $kitchen; ?></span>
-            </div>
-            <a class="btn btn-primary" href="properties/property-detail.php?id=<?php echo $id; ?>">View Details</a>
+            <h4><a href="./properties/property-detail.php?id=<?php echo $id; ?>"><?php echo $property_title;  ?></a></h4>
+            <p class="price">Price: Rs<?php echo number_format($price); ?></p>
+            <p class="price">Floor Space: <?php echo $floor_space; ?></p>
+            <p class="price">Address: <?php echo $property_address; ?></p>
+            <a class="btn btn-primary" href="./properties/property-detail.php?id=<?php echo $id; ?>">View Details</a>
           </div>
 
         <?php } ?>
 
       </div>
     </div>
-    <div class="spacer">
-      <div class="row">
-        <div class="col-lg-12 col-sm-12 recent-view">
-          <h3>About Us</h3>
-          <p>At Real Estate, you are number one. Whether you are a property owner, tenant, or buyer, we value your
-            business and will provide you with the individual attention and service you deserve. We believe in a
-            strict
-            Code of Ethics. We believe in integrity, commitment to excellence, a professional attitude, and
-            personalized
-            care.<br><a href="about.php">Learn More</a></p>
-          <p>At Real Estate, you are number one. Whether you are a property owner, tenant, or buyer, we value your
-            business and will provide you with the individual attention and service you deserve. We believe in a
-            strict
-            Code of Ethics. We believe in integrity, commitment to excellence, a professional attitude, and
-            personalized
-            care.<br><a href="about.php">Learn More</a></p>
-          <p>At Real Estate, you are number one. Whether you are a property owner, tenant, or buyer, we value your
-            business and will provide you with the individual attention and service you deserve. We believe in a
-            strict
-            Code of Ethics. We believe in integrity, commitment to excellence, a professional attitude, and
-            personalized
-            care.<br><a href="about.php">Learn More</a></p>
-
-        </div>
-
-      </div>
-    </div>
+    
   </div>
 
 
 
  <?php include 'includes/footer.php'; ?>
+
 </body>
 
 <!-- Mirrored from thebootstrapthemes.com/live/thebootstrapthemes-realestate/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 11 Apr 2017 02:43:16 GMT -->
